@@ -95,11 +95,11 @@ public class Login extends javax.swing.JFrame
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         try 
         {
-            String user=txtUsuario.getText();
+            String username=txtUsuario.getText();
             String password=String.valueOf(txtPasw.getPassword());
-            String query="SELECT * FROM Login WHERE username= '"+user+"' and password= '"+password+"'";
+            String query="SELECT * FROM login WHERE username='"+username+"' and password='"+password+"'";
             Statement st = cx.conectar().createStatement();
-            ResultSet rs=st.executeQuery(user);
+            ResultSet rs=st.executeQuery(query);
             if(rs.next())
             {
                 JOptionPane.showMessageDialog(this, "El usuario esta en la base de datos");
