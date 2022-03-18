@@ -28,9 +28,9 @@ create table Empleados
 (
 	idEmpleado int auto_increment not null,
     idPuesto int not null,
-    tipoUsuario char(1) not null,
     numSeguro char(8) not null,
     turno varchar(15) not null,
+    idUsuario int not null,
     constraint pk_Empleados primary key (idEmpleado),
     constraint uq_numSeg_Empleados unique(numSeguro)
     
@@ -38,9 +38,8 @@ create table Empleados
 create table Usuarios
 (
    idUsuario      int auto_increment not null,
-   idEmpleado int not null,
    nombre         varchar(50) not null,
-   telefono       char(12) not null,
+   telefono       varchar(12) not null,
    email          varchar(50) not null,
    direccion      varchar(50) not null,
    tipoUsuario           char(1) not null,
@@ -185,8 +184,8 @@ alter table Cliente add constraint FK_factura_cliente foreign key (idFactura)
       references  Factura (idFactura);
 alter table Cliente add constraint FK_usuario_cliente foreign key (idUsuario)
       references  Usuarios (idUsuario);
-alter table Usuarios add constraint FK_Empleados_Usuarios foreign key (idEmpleado)
-      references  Empleados (idEmpleado);
+alter table Empleados add constraint FK_usuario_empleados foreign key (idUsuario) 
+      references  Usuarios (idUsuario);
 alter table Empleados add constraint FK_Puestos_Empleados foreign key (idPuesto)
       references  Puestos (idPuesto);
 alter table Nomina add constraint FK_Empleados_Nomina foreign key (idEmpleado)
