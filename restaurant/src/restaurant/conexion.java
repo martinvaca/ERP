@@ -4,6 +4,7 @@ package restaurant;
  * @author Martin Vaca
  */
 import java.sql.Connection;
+import java.lang.*;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.sql.DriverManager;

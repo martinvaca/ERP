@@ -102,11 +102,17 @@ public class Login extends javax.swing.JFrame
             ResultSet rs=st.executeQuery(query);
             if(rs.next())
             {
-                JOptionPane.showMessageDialog(this, "El usuario esta en la base de datos");
+                JOptionPane.showMessageDialog(this, "iniciando Sesion....");
+
+                //Lineas para hacer la conexion entre interfaces
+                this.setVisible(false);
+                PrincipalAdministrador pA = new PrincipalAdministrador();
+                pA.setVisible(true);
+
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "El usuario no esta en la base de datos");
+                JOptionPane.showMessageDialog(this, "El usuario o la contraseña son incorrectos");
 
             }
         } 
