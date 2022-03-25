@@ -245,6 +245,11 @@ public class Usuarios extends javax.swing.JFrame {
                 btnRegresarMouseClicked(evt);
             }
         });
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -500,6 +505,10 @@ public class Usuarios extends javax.swing.JFrame {
         PrincipalAdministrador  a = new PrincipalAdministrador();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
