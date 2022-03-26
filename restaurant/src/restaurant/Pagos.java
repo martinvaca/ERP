@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor.import javax.swing.JTextField;
  */
 package restaurant;
 
@@ -24,7 +24,7 @@ public class Pagos extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="";
+    String password="18010376";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -35,7 +35,7 @@ public class Pagos extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarTabla();
-        txtidEmpleado.setVisible(false);
+        
     }
         
     public Connection conectar()
@@ -118,10 +118,10 @@ public class Pagos extends javax.swing.JFrame {
         txtidPedido = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txttotalPagar = new javax.swing.JTextField();
-        txtidPago = new javax.swing.JTextField();
         txtdescripcion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnbuscar = new javax.swing.JButton();
+        txtidPago = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pagos");
@@ -188,12 +188,6 @@ public class Pagos extends javax.swing.JFrame {
 
         jLabel4.setText("total");
 
-        txtidPago.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidPagoActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("Descripcion");
 
         btnbuscar.setText("Buscar");
@@ -219,27 +213,8 @@ public class Pagos extends javax.swing.JFrame {
                         .addComponent(btn_regresar)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtidPago, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(btnbuscar))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel4))
-                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_guardar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -247,8 +222,32 @@ public class Pagos extends javax.swing.JFrame {
                                 .addGap(13, 13, 13)
                                 .addComponent(btn_limpiar)
                                 .addGap(12, 12, 12)
-                                .addComponent(btn_eliminar1)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btn_eliminar1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(196, 196, 196)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(4, 4, 4))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jLabel4))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtidPago, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnbuscar))
+                            .addComponent(jLabel2))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,39 +257,35 @@ public class Pagos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtidPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnbuscar))
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtidPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btn_regresar)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btn_guardar)
-                                        .addComponent(btn_limpiar)
-                                        .addComponent(btn_eliminar1)
-                                        .addComponent(btn_modificar))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnbuscar))
-                                .addGap(45, 45, 45))))
+                                .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_guardar)
+                                .addComponent(btn_limpiar)
+                                .addComponent(btn_eliminar1)
+                                .addComponent(btn_modificar))
+                            .addComponent(btn_regresar)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
@@ -302,10 +297,6 @@ public class Pagos extends javax.swing.JFrame {
         a.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 
-    private void txtidPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidPagoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtidPagoActionPerformed
-
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         Connection c=null;
         try
@@ -315,7 +306,7 @@ public class Pagos extends javax.swing.JFrame {
             ps.setString(1, txtidPago.getText());
             ps.setString(2, txtidPedido.getText());
             ps.setString(3, txtdescripcion.getText());
-            ps.setString(4, txttotal.getText());
+            ps.setString(4, txttotalPagar.getText());
             
             int res = ps.executeUpdate();
             
@@ -335,10 +326,9 @@ public class Pagos extends javax.swing.JFrame {
         catch(Exception e)
         {
             System.out.println(e);
-        }
-    }        
+        }       
     }//GEN-LAST:event_btn_guardarActionPerformed
-}
+
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
         Connection c=null;
         try
@@ -346,9 +336,9 @@ public class Pagos extends javax.swing.JFrame {
             c= this.conectar();
             ps=c.prepareStatement("UPDATE Pagos SET idPago=?, idPedido=?, descripcion=?, total=? WHERE idPago=?");
             ps.setString(1, txtidPago.getText());
-            ps.setString(2, txtPedido.getText());
+            ps.setString(2, txtidPedido.getText());
             ps.setString(3, txtdescripcion.getText());
-            ps.setString(4, txttotal.getText());
+            ps.setString(4, txttotalPagar.getText());
             
             int res = ps.executeUpdate();
             
@@ -368,9 +358,7 @@ public class Pagos extends javax.swing.JFrame {
         catch(Exception e)
         {
             System.out.println(e);
-        }
-        
-    }       
+        }       
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_eliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar1ActionPerformed
@@ -400,8 +388,7 @@ public class Pagos extends javax.swing.JFrame {
         catch(Exception e)
         {
             System.out.println(e);
-        }    
-    }        
+        }            
     }//GEN-LAST:event_btn_eliminar1ActionPerformed
 
     private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
