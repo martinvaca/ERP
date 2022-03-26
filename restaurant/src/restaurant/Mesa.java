@@ -22,7 +22,7 @@ public class Mesa extends javax.swing.JFrame {
 String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="Holaquease1";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -297,13 +297,13 @@ private void cargarTabla()
 
             if(res>0)
             {
-                JOptionPane.showMessageDialog(null, "Empleado Guardado");
+                JOptionPane.showMessageDialog(null, "Mesa Reservada");
                 limpiarCajas();
                 cargarTabla();
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Error al Guardar Empleado");
+                JOptionPane.showMessageDialog(null, "Error al Reservar Mesa");
                 limpiarCajas();
             }
             c.close();
@@ -334,13 +334,13 @@ private void cargarTabla()
 
             if(res>0)
             {
-                JOptionPane.showMessageDialog(null, "Empleado Mdificado");
+                JOptionPane.showMessageDialog(null, "Mesa Mdificada");
                 limpiarCajas();
                 cargarTabla();
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Error al Modificar Empleado");
+                JOptionPane.showMessageDialog(null, "Error al Modificar Mesa");
                 limpiarCajas();
             }
             c.close();
@@ -364,13 +364,13 @@ private void cargarTabla()
 
             if(res>0)
             {
-                JOptionPane.showMessageDialog(null, "Empleado Eliminado");
+                JOptionPane.showMessageDialog(null, "Mesa Eliminada");
                 limpiarCajas();
                 cargarTabla();
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Error al Eliminar Empleado");
+                JOptionPane.showMessageDialog(null, "Error al Eliminar Mesa");
                 limpiarCajas();
             }
             c.close();
@@ -393,9 +393,8 @@ private void cargarTabla()
     }//GEN-LAST:event_btnRegresarMouseClicked
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
-        a.setVisible(true);
+
+        
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
@@ -410,7 +409,7 @@ private void cargarTabla()
             
             if(rs.next())
             {
-                JOptionPane.showMessageDialog(null, "Empleado Encontrado");
+                JOptionPane.showMessageDialog(null, "Mesa Encontrada");
                 txtMesa.setText(rs.getString("idMesa"));
                 txtZona.setText(rs.getString("idZona"));
                 txtNM.setText(rs.getString("noMesa"));
@@ -419,7 +418,7 @@ private void cargarTabla()
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Empleado no existe");
+                JOptionPane.showMessageDialog(null, "Mesa no existe");
                 limpiarCajas();
             }
             c.close();

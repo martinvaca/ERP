@@ -57,6 +57,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         menRes = new javax.swing.JMenu();
         menuReser = new javax.swing.JMenu();
         menMesa = new javax.swing.JMenu();
+        menZona = new javax.swing.JMenu();
         pr = new javax.swing.JMenu();
         pag = new javax.swing.JMenu();
         menPago = new javax.swing.JMenu();
@@ -151,6 +152,11 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         });
 
         menuReser.setText("Reservaciones");
+        menuReser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuReserMouseClicked(evt);
+            }
+        });
         menRes.add(menuReser);
 
         menMesa.setText("Mesa");
@@ -160,6 +166,14 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
             }
         });
         menRes.add(menMesa);
+
+        menZona.setText("Zona");
+        menZona.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menZonaMouseClicked(evt);
+            }
+        });
+        menRes.add(menZona);
 
         jMenuBar1.add(menRes);
 
@@ -287,16 +301,26 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_menDetallePeMouseClicked
 
     private void menResMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menResMouseClicked
-        this.setVisible(false);
-        Reservaciones r= new Reservaciones();
-        r.setVisible(true);
+
     }//GEN-LAST:event_menResMouseClicked
 
     private void menMesaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menMesaMouseClicked
-//        this.setVisible(false);
-//        Mesa m= new Mesa();
-//        m.setVisible(true);
+        this.setVisible(false);
+        Mesa m= new Mesa();
+        m.setVisible(true);
     }//GEN-LAST:event_menMesaMouseClicked
+
+    private void menuReserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuReserMouseClicked
+        this.setVisible(false);
+        Reservaciones r= new Reservaciones();
+        r.setVisible(true);
+    }//GEN-LAST:event_menuReserMouseClicked
+
+    private void menZonaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menZonaMouseClicked
+        this.setVisible(false);
+        Zona z= new Zona();
+        z.setVisible(true);
+    }//GEN-LAST:event_menZonaMouseClicked
 
 
     public static void main(String args[]) {
@@ -344,6 +368,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenu menPedi;
     private javax.swing.JMenu menRes;
     private javax.swing.JMenu menTipoPago;
+    private javax.swing.JMenu menZona;
     private javax.swing.JMenu menuEmpleados;
     private javax.swing.JMenu menuLogin;
     private javax.swing.JMenu menuNomina;
