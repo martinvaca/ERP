@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.import javax.swing.JTextField;
- */
 package restaurant;
 
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
@@ -24,7 +19,7 @@ public class Pagos extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010376";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -334,12 +329,12 @@ public class Pagos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Pagos SET idPago=?, idPedido=?, descripcion=?, total=? WHERE idPago=?");
-            ps.setString(1, txtidPago.getText());
-            ps.setString(2, txtidPedido.getText());
-            ps.setString(3, txtdescripcion.getText());
-            ps.setString(4, txttotalPagar.getText());
+            ps=c.prepareStatement("UPDATE Pagos SET  idPedido=?, descripcion=?, total=? WHERE idPago=?");
             
+            ps.setString(1, txtidPedido.getText());
+            ps.setString(2, txtdescripcion.getText());
+            ps.setString(3, txttotalPagar.getText());
+            ps.setString(4, txtidPago.getText());
             int res = ps.executeUpdate();
             
             if(res>0)

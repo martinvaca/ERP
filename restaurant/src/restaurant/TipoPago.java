@@ -23,7 +23,7 @@ public class TipoPago extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -60,7 +60,7 @@ public class TipoPago extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idTipo, idPago, nombreFROM tipoPago");
+                ps=c.prepareStatement("SELECT idTipo, idPago, nombre FROM tipoPago");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();

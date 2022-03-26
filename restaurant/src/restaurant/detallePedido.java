@@ -24,7 +24,7 @@ public class detallePedido extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010376";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -395,13 +395,14 @@ public class detallePedido extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE detallePedido SET idDetPed=?, idProducto=?, idPedido=?, cant=?, precio=?, subtotal=? WHERE idDetPed=?");
-            ps.setString(1, txtDetPed.getText());
-            ps.setString(2, txtidProducto.getText());
-            ps.setString(3, txtidPedido.getText());
-            ps.setString(4, txtCantidad.getText());
-            ps.setString(5, txtPrecio.getText());
-            ps.setString(6, txtSubtotal.getText());
+            ps=c.prepareStatement("UPDATE detallePedido SET  idProducto=?, idPedido=?, cant=?, precio=?, subtotal=? WHERE idDetPed=?");
+            
+            ps.setString(1, txtidProducto.getText());
+            ps.setString(2, txtidPedido.getText());
+            ps.setString(3, txtCantidad.getText());
+            ps.setString(4, txtPrecio.getText());
+            ps.setString(5, txtSubtotal.getText());
+            ps.setString(6, txtDetPed.getText());
 
             int res = ps.executeUpdate();
 

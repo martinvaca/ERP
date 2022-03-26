@@ -24,7 +24,7 @@ public class Pedidos extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -35,9 +35,8 @@ public class Pedidos extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarTabla();
-        txtidEmpleado.setVisible(false);
         
-    }
+        
 
     }
     
@@ -66,7 +65,7 @@ public class Pedidos extends javax.swing.JFrame {
 
     private void cargarTabla()
         {
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblPedidos.getModel();
+            DefaultTableModel modeloTabla = (DefaultTableModel) tablePedidos.getModel();
             modeloTabla.setRowCount(0);
             
             PreparedStatement ps;
@@ -221,18 +220,13 @@ public class Pedidos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_regresar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelPedidos)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -242,46 +236,55 @@ public class Pedidos extends javax.swing.JFrame {
                                         .addComponent(jLabel4))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(33, 33, 33)
-                                        .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnbuscar))))
+                                        .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_guardar)
-                                .addGap(14, 14, 14)
-                                .addComponent(btn_modificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_eliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_limpiar)))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnbuscar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_regresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardar)
+                        .addGap(14, 14, 14)
+                        .addComponent(btn_modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_limpiar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelPedidos)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
+                            .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnbuscar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnbuscar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_guardar)
-                            .addComponent(btn_eliminar)
-                            .addComponent(btn_modificar)
-                            .addComponent(btn_limpiar))))
+                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27)
-                .addComponent(btn_regresar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_regresar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_guardar)
+                        .addComponent(btn_eliminar)
+                        .addComponent(btn_modificar)
+                        .addComponent(btn_limpiar)))
                 .addContainerGap())
         );
 
@@ -308,10 +311,11 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Pedidos SET idPedido=?, idMesa=?, totalPagar=? WHERE idPedido=?");
-            ps.setString(1, txtidPedido.getText());
-            ps.setString(2, txtidMesa.getText());
-            ps.setString(3, txttotalPagar.getText());
+            ps=c.prepareStatement("UPDATE Pedidos SET  idMesa=?, totalPagar=? WHERE idPedido=?");
+            
+            ps.setString(1, txtidMesa.getText());
+            ps.setString(2, txttotalPagar.getText());
+            ps.setString(3, txtidPedido.getText());
  
             
             int res = ps.executeUpdate();
@@ -334,7 +338,7 @@ public class Pedidos extends javax.swing.JFrame {
             System.out.println(e);
         }
         
-    }    
+     
     }//GEN-LAST:event_btn_modificarActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
@@ -342,9 +346,9 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar, ) VALUES (?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar) VALUES (?, ?, ?)");
             ps.setString(1, txtidPedido.getText());
-            ps.setString(2, txtMesa.getText());
+            ps.setString(2, txtidMesa.getText());
             ps.setString(3, txttotalPagar.getText());
   
             
@@ -367,7 +371,7 @@ public class Pedidos extends javax.swing.JFrame {
         {
             System.out.println(e);
         }
-    }       
+          
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
@@ -399,7 +403,7 @@ Connection c=null;
         {
             System.out.println(e);
         }    
-    }    
+   
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
@@ -417,7 +421,7 @@ Connection c=null;
             {
                 JOptionPane.showMessageDialog(null, "Pedido Encontrado");
                 txtidPedido.setText(rs.getString("idPedido"));
-                txtMesa.setText(rs.getString("idMesa"));
+                txtidMesa.setText(rs.getString("idMesa"));
                 txttotalPagar.setText(rs.getString("totalPagar"));
                 
 
