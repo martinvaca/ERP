@@ -63,6 +63,8 @@ public class Usuarios extends javax.swing.JFrame {
             txtEmail.setText(null);
             txtDireccion.setText(null);
             cbxTipoUsuario.setSelectedIndex(0);
+            cbxEstatus.setSelectedIndex(0);
+            txtClave.setText(null);
         }
         
     public Usuarios() 
@@ -89,7 +91,7 @@ public class Usuarios extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idUsuario, nombre, telefono, email, direccion, tipoUsuario FROM Usuarios");
+                ps=c.prepareStatement("SELECT idUsuario, nombre, telefono, email, direccion, tipoUsuario, estatus, clave FROM Usuarios");
                 rs=ps.executeQuery();
                 rsmd = (com.mysql.cj.jdbc.result.ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -133,6 +135,10 @@ public class Usuarios extends javax.swing.JFrame {
         TbUsuarios = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        txtClave = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -208,14 +214,14 @@ public class Usuarios extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idUsuario", "nombre", "telefono", "email", "direccion", "tipoUsuario"
+                "idUsuario", "nombre", "telefono", "email", "direccion", "tipoUsuario", "estatus", "clave"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -234,6 +240,8 @@ public class Usuarios extends javax.swing.JFrame {
             TbUsuarios.getColumnModel().getColumn(3).setResizable(false);
             TbUsuarios.getColumnModel().getColumn(4).setResizable(false);
             TbUsuarios.getColumnModel().getColumn(5).setResizable(false);
+            TbUsuarios.getColumnModel().getColumn(6).setResizable(false);
+            TbUsuarios.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -251,25 +259,27 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "I", "A" }));
+
+        jLabel8.setText("clave");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(133, 133, 133))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))))
+                            .addComponent(btnRegresar)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRegresar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(206, 206, 206)
+                        .addComponent(jLabel6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -288,8 +298,18 @@ public class Usuarios extends javax.swing.JFrame {
                                     .addComponent(txtDireccion, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtClave))))
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar))
@@ -307,14 +327,11 @@ public class Usuarios extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(3, 3, 3)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
@@ -328,14 +345,24 @@ public class Usuarios extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
@@ -365,12 +392,14 @@ public class Usuarios extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Usuarios (nombre, telefono, email, direccion, tipoUsuario) VALUES (?, ?, ?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Usuarios (nombre, telefono, email, direccion, tipoUsuario, estatus, clave) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtNombre.getText());
             ps.setString(2, txtTelefono.getText());
             ps.setString(3, txtEmail.getText());
             ps.setString(4, txtDireccion.getText());
             ps.setString(5, cbxTipoUsuario.getSelectedItem().toString());
+            ps.setString(6, cbxEstatus.getSelectedItem().toString());
+            ps.setString(7, txtClave.getText());
             
             int res = ps.executeUpdate();
             
@@ -412,6 +441,9 @@ public class Usuarios extends javax.swing.JFrame {
                 txtEmail.setText(rs.getString("email"));
                 txtDireccion.setText(rs.getString("direccion"));
                 cbxTipoUsuario.setSelectedItem(rs.getString("tipoUsuario"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
+                txtClave.setText(rs.getString("clave"));
+                
             }
             else
             {
@@ -432,13 +464,15 @@ public class Usuarios extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Usuarios SET nombre=?, telefono=?, email=?, direccion=?, tipoUsuario=? WHERE idUsuario=?");
+            ps=c.prepareStatement("UPDATE Usuarios SET nombre=?, telefono=?, email=?, direccion=?, tipoUsuario=?, estatus=?, clave=? WHERE idUsuario=?");
             ps.setString(1, txtNombre.getText());
             ps.setString(2, txtTelefono.getText());
             ps.setString(3, txtEmail.getText());
             ps.setString(4, txtDireccion.getText());
             ps.setString(5, cbxTipoUsuario.getSelectedItem().toString());
-            ps.setString(6, txtIdUsuario.getText());
+            ps.setString(6, cbxEstatus.getSelectedItem().toString());
+            ps.setString(7, txtClave.getText());
+            ps.setString(8, txtIdUsuario.getText());
 
             
             int res = ps.executeUpdate();
@@ -553,6 +587,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxEstatus;
     private javax.swing.JComboBox<String> cbxTipoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -560,7 +595,10 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtClave;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtIdUsuario;

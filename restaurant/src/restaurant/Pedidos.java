@@ -61,6 +61,7 @@ public class Pedidos extends javax.swing.JFrame {
             txtidPedido.setText(null);
             txtidMesa.setText(null);
             txttotalPagar.setText(null);
+            cbxEstatus.setSelectedIndex(0);
         }   
 
     private void cargarTabla()
@@ -77,7 +78,7 @@ public class Pedidos extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar FROM Pedidos");
+                ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar, estatus FROM Pedidos");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -104,6 +105,7 @@ public class Pedidos extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
         txtidPedido = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -119,6 +121,8 @@ public class Pedidos extends javax.swing.JFrame {
         labelPedidos = new javax.swing.JLabel();
         btn_modificar = new javax.swing.JButton();
         btnbuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -132,6 +136,8 @@ public class Pedidos extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pedidos");
@@ -181,12 +187,19 @@ public class Pedidos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idPedido", "idMesa", "totalPagar"
+                "idPedido", "idMesa", "totalPagar", "estatus"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -194,7 +207,10 @@ public class Pedidos extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tablePedidos);
         if (tablePedidos.getColumnModel().getColumnCount() > 0) {
+            tablePedidos.getColumnModel().getColumn(0).setResizable(false);
+            tablePedidos.getColumnModel().getColumn(1).setResizable(false);
             tablePedidos.getColumnModel().getColumn(2).setResizable(false);
+            tablePedidos.getColumnModel().getColumn(3).setResizable(false);
         }
 
         labelPedidos.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -214,17 +230,32 @@ public class Pedidos extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "A", "I" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelPedidos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(btn_regresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardar)
+                        .addGap(14, 14, 14)
+                        .addComponent(btn_modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_limpiar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPedidos)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,28 +273,25 @@ public class Pedidos extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnbuscar))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_regresar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_guardar)
-                        .addGap(14, 14, 14)
-                        .addComponent(btn_modificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_limpiar)))
+                                .addComponent(btnbuscar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelPedidos)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelPedidos)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -276,15 +304,19 @@ public class Pedidos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_regresar)
+                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_guardar)
                         .addComponent(btn_eliminar)
                         .addComponent(btn_modificar)
-                        .addComponent(btn_limpiar)))
+                        .addComponent(btn_limpiar))
+                    .addComponent(btn_regresar))
                 .addContainerGap())
         );
 
@@ -311,11 +343,12 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Pedidos SET  idMesa=?, totalPagar=? WHERE idPedido=?");
+            ps=c.prepareStatement("UPDATE Pedidos SET  idMesa=?, totalPagar=?, estatus=? WHERE idPedido=?");
             
             ps.setString(1, txtidMesa.getText());
             ps.setString(2, txttotalPagar.getText());
-            ps.setString(3, txtidPedido.getText());
+            ps.setString(3, cbxEstatus.getSelectedItem().toString());
+            ps.setString(4, txtidPedido.getText());
  
             
             int res = ps.executeUpdate();
@@ -346,10 +379,11 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar) VALUES (?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar, estatus) VALUES (?, ?, ?, ?)");
             ps.setString(1, txtidPedido.getText());
             ps.setString(2, txtidMesa.getText());
             ps.setString(3, txttotalPagar.getText());
+            ps.setString(4, cbxEstatus.getSelectedItem().toString());
   
             
             int res = ps.executeUpdate();
@@ -423,6 +457,7 @@ Connection c=null;
                 txtidPedido.setText(rs.getString("idPedido"));
                 txtidMesa.setText(rs.getString("idMesa"));
                 txttotalPagar.setText(rs.getString("totalPagar"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
                 
 
             }
@@ -481,12 +516,15 @@ Connection c=null;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JComboBox<String> cbxEstatus;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelPedidos;
     private javax.swing.JTable tablePedidos;
     private javax.swing.JTextField txtidMesa;

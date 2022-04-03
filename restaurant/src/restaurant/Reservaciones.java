@@ -5,12 +5,15 @@ package restaurant;
  * @author Martin Vaca
  */
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class Reservaciones extends javax.swing.JFrame {
@@ -44,10 +47,10 @@ public class Reservaciones extends javax.swing.JFrame {
             txtidRes.setText(null);
             txtidMesa.setText(null);
             txtidCli.setText(null);
-            txtnombreRes.setText(null);
             txtPers.setText(null);
-            txtHora.setText(null);
+            cbxHora.setSelectedIndex(0);
             txtFecha.setText(null);
+            cbxHoraFin.setSelectedIndex(0);
             
         }
         
@@ -65,7 +68,7 @@ private void cargarTabla()
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idReservacion, idMesa, idCliente, nombreReser, personas, hora, fecha  FROM Reservaciones");
+                ps=c.prepareStatement("SELECT idReservacion, idMesa, idCliente, personas, hora, fecha, horafin FROM Reservaciones");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -89,6 +92,9 @@ private void cargarTabla()
         initComponents();
         this.setLocationRelativeTo(null);
         cargarTabla();
+        Image im=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/Res.png"));
+        fondo.setIcon(new ImageIcon(im.getScaledInstance(fondo.getWidth(), fondo.getHeight(), Image.SCALE_SMOOTH)));
+        this.setIconImage(im);
     }
 
     /**
@@ -108,22 +114,23 @@ private void cargarTabla()
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtidRes = new javax.swing.JTextField();
         txtidMesa = new javax.swing.JTextField();
         txtidCli = new javax.swing.JTextField();
-        txtnombreRes = new javax.swing.JTextField();
         txtPers = new javax.swing.JTextField();
-        txtHora = new javax.swing.JTextField();
         txtFecha = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        cbxHora = new javax.swing.JComboBox<>();
+        cbxHoraFin = new javax.swing.JComboBox<>();
+        fondo = new javax.swing.JLabel();
 
         jLabel5.setText("idCliente");
 
@@ -134,11 +141,11 @@ private void cargarTabla()
 
             },
             new String [] {
-                "idReservacion", "idMesa", "idCliente", "nombreReser", "personas", "hora", "fecha"
+                "idReservacion", "idMesa", "idCliente", "personas", "hora", "fecha", "horafin"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -172,6 +179,11 @@ private void cargarTabla()
                 btnBuscarMouseClicked(evt);
             }
         });
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("idReservacion");
 
@@ -179,11 +191,9 @@ private void cargarTabla()
 
         jLabel4.setText("idCliente");
 
-        jLabel6.setText("nombreReser");
-
         jLabel7.setText("personas");
 
-        jLabel8.setText("hora");
+        jLabel8.setText("hora Inicio");
 
         jLabel9.setText("fecha");
 
@@ -203,6 +213,11 @@ private void cargarTabla()
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
+            }
+        });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
             }
         });
 
@@ -227,10 +242,35 @@ private void cargarTabla()
             }
         });
 
+        jLabel10.setText("hora fin");
+
+        cbxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "12:00:00", "13:00:00", "14:00:00 ", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", " " }));
+        cbxHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxHoraActionPerformed(evt);
+            }
+        });
+
+        cbxHoraFin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "13:00:00", "14:00:00", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", "23:00:00" }));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Res.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRegresar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnModificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEliminar)
+                .addGap(18, 18, 18)
+                .addComponent(btnLimpiar)
+                .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -238,10 +278,6 @@ private void cargarTabla()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtnombreRes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -261,40 +297,39 @@ private void cargarTabla()
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtFecha))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
+                        .addGap(28, 28, 28)
+                        .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnRegresar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLimpiar)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnModificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminar)))
-                .addGap(29, 29, 29))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(29, 29, 29))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,28 +346,26 @@ private void cargarTabla()
                             .addComponent(txtidCli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtnombreRes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtPers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10)
+                            .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar)
+                    .addComponent(btnLimpiar)
                     .addComponent(btnRegresar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLimpiar))
+                .addContainerGap())
         );
 
         pack();
@@ -347,14 +380,14 @@ private void cargarTabla()
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, nombreReser, personas, hora, fecha) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, personas, hora, fecha, horafin) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtidRes.getText());
             ps.setString(2, txtidMesa.getText());
             ps.setString(3, txtidCli.getText());
-            ps.setString(4, txtnombreRes.getText());
-            ps.setString(5, txtPers.getText());
-            ps.setString(6, txtHora.getText());
-            ps.setString(7, txtFecha.getText());
+            ps.setString(4, txtPers.getText());
+            ps.setString(5, cbxHora.getSelectedItem().toString());
+            ps.setString(6, txtFecha.getText());
+            ps.setString(7, cbxHoraFin.getSelectedItem().toString());
             
             int res = ps.executeUpdate();
             
@@ -392,10 +425,10 @@ private void cargarTabla()
                 txtidRes.setText(rs.getString("idReservacion"));
                 txtidMesa.setText(rs.getString("idMesa"));
                 txtidCli.setText(rs.getString("idCliente"));
-                txtnombreRes.setText(rs.getString("nombreReser"));
                 txtPers.setText(rs.getString("personas"));
-                txtHora.setText(rs.getString("hora"));
+                cbxHora.setSelectedItem(rs.getString("hora"));
                 txtFecha.setText(rs.getString("fecha"));
+                cbxHoraFin.setSelectedItem(rs.getString("horafin"));
             }
             else
             {
@@ -414,13 +447,13 @@ private void cargarTabla()
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Reservaciones SET idMesa=?, idCliente=?, nombreReser=?, personas=?, hora=?, fecha=? WHERE idReservacion=?");
+            ps=c.prepareStatement("UPDATE Reservaciones SET idMesa=?, idCliente=?, personas=?, hora=?, fecha=?, horafin=? WHERE idReservacion=?");
             ps.setString(1, txtidMesa.getText());
             ps.setString(2, txtidCli.getText());
-            ps.setString(3, txtnombreRes.getText());
-            ps.setString(4, txtPers.getText());
-            ps.setString(5, txtHora.getText());
-            ps.setString(6, txtFecha.getText());
+            ps.setString(3, txtPers.getText());
+            ps.setString(4, cbxHora.getSelectedItem().toString());
+            ps.setString(5, txtFecha.getText());
+            ps.setString(6, cbxHoraFin.getSelectedItem().toString());
             ps.setString(7, txtidRes.getText());
 
             
@@ -485,6 +518,18 @@ private void cargarTabla()
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void cbxHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHoraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxHoraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -527,23 +572,24 @@ private void cargarTabla()
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxHora;
+    private javax.swing.JComboBox<String> cbxHoraFin;
+    private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRes;
     private javax.swing.JTextField txtFecha;
-    private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtPers;
     private javax.swing.JTextField txtidCli;
     private javax.swing.JTextField txtidMesa;
     private javax.swing.JTextField txtidRes;
-    private javax.swing.JTextField txtnombreRes;
     // End of variables declaration//GEN-END:variables
 }

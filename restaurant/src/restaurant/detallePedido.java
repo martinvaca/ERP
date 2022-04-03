@@ -62,6 +62,7 @@ public class detallePedido extends javax.swing.JFrame {
             txtCantidad.setText(null);
             txtPrecio.setText(null);
             txtSubtotal.setText(null);
+            cbxEstatus.setSelectedIndex(0);
             
         }    
         
@@ -79,7 +80,7 @@ public class detallePedido extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idDetPed, idDetPed, idProducto, idPedido, cant, precio, subtotal FROM detallePedido");
+                ps=c.prepareStatement("SELECT idDetPed, idProducto, idPedido, cant, precio, subtotal, estatus FROM detallePedido");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -130,6 +131,8 @@ public class detallePedido extends javax.swing.JFrame {
         txtSubtotal = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         btnbuscar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,18 +172,34 @@ public class detallePedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idDetPed", "idProducto", "idPedido", "cantidad", "Precio", "Subtotal"
+                "idDetPed", "idProducto", "idPedido", "cantidad", "Precio", "Subtotal", "Estatus"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(detallePedido);
+        if (detallePedido.getColumnModel().getColumnCount() > 0) {
+            detallePedido.getColumnModel().getColumn(0).setResizable(false);
+            detallePedido.getColumnModel().getColumn(1).setResizable(false);
+            detallePedido.getColumnModel().getColumn(2).setResizable(false);
+            detallePedido.getColumnModel().getColumn(3).setResizable(false);
+            detallePedido.getColumnModel().getColumn(4).setResizable(false);
+            detallePedido.getColumnModel().getColumn(5).setResizable(false);
+            detallePedido.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         btn_regresar.setText("Regresar");
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -219,6 +238,10 @@ public class detallePedido extends javax.swing.JFrame {
                 btnbuscarActionPerformed(evt);
             }
         });
+
+        jLabel8.setText("estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "A", "I" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -260,17 +283,25 @@ public class detallePedido extends javax.swing.JFrame {
                                     .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))))))
-                .addContainerGap(53, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(28, 28, 28)
+                                                .addComponent(jLabel5)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel7))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +313,10 @@ public class detallePedido extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnbuscar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnbuscar)
+                                .addComponent(jLabel8)
+                                .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
@@ -327,13 +361,14 @@ public class detallePedido extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO detallePedido (idDetPed, idProducto, idPedido, cant, precio, subtotal) VALUES (?, ?, ?, ?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO detallePedido (idDetPed, idProducto, idPedido, cant, precio, subtotal, estatus) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtDetPed.getText());
             ps.setString(2, txtidProducto.getText());
             ps.setString(3, txtidPedido.getText());
             ps.setString(4, txtCantidad.getText());
             ps.setString(5, txtPrecio.getText());
             ps.setString(6, txtSubtotal.getText());
+            ps.setString(7, cbxEstatus.getSelectedItem().toString());
 
             int res = ps.executeUpdate();
 
@@ -395,14 +430,15 @@ public class detallePedido extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE detallePedido SET  idProducto=?, idPedido=?, cant=?, precio=?, subtotal=? WHERE idDetPed=?");
+            ps=c.prepareStatement("UPDATE detallePedido SET  idProducto=?, idPedido=?, cant=?, precio=?, subtotal=?, estatus=? WHERE idDetPed=?");
             
             ps.setString(1, txtidProducto.getText());
             ps.setString(2, txtidPedido.getText());
             ps.setString(3, txtCantidad.getText());
             ps.setString(4, txtPrecio.getText());
             ps.setString(5, txtSubtotal.getText());
-            ps.setString(6, txtDetPed.getText());
+            ps.setString(6, cbxEstatus.getSelectedItem().toString());
+            ps.setString(7, txtDetPed.getText());
 
             int res = ps.executeUpdate();
 
@@ -448,9 +484,10 @@ public class detallePedido extends javax.swing.JFrame {
                 txtDetPed.setText(rs.getString("idDetPed"));
                 txtidProducto.setText(rs.getString("idProducto"));
                 txtidPedido.setText(rs.getString("idPedido"));
-                txtCantidad.setText(rs.getString("cantidad"));
+                txtCantidad.setText(rs.getString("cant"));
                 txtPrecio.setText(rs.getString("precio"));
                 txtSubtotal.setText(rs.getString("Subtotal"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
 
             }
             else
@@ -516,6 +553,7 @@ public class detallePedido extends javax.swing.JFrame {
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JComboBox<String> cbxEstatus;
     private javax.swing.JTable detallePedido;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -524,6 +562,7 @@ public class detallePedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtDetPed;

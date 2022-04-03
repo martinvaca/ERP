@@ -160,15 +160,28 @@ public class Pagos extends javax.swing.JFrame {
                 "idPago", "idPedido", "descripcion", "total"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Float.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblPagos);
+        if (tblPagos.getColumnModel().getColumnCount() > 0) {
+            tblPagos.getColumnModel().getColumn(0).setResizable(false);
+            tblPagos.getColumnModel().getColumn(1).setResizable(false);
+            tblPagos.getColumnModel().getColumn(2).setResizable(false);
+            tblPagos.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         btn_modificar.setText("Modificar");
         btn_modificar.addActionListener(new java.awt.event.ActionListener() {
@@ -222,8 +235,7 @@ public class Pagos extends javax.swing.JFrame {
                                 .addGap(196, 196, 196)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4))))
+                                    .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +254,7 @@ public class Pagos extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnbuscar))
                             .addComponent(jLabel2))))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
