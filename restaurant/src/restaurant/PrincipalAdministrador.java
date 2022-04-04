@@ -9,7 +9,8 @@ import javax.swing.ImageIcon;
  * @author Martin Vaca
  */
 public class PrincipalAdministrador extends javax.swing.JFrame {
-
+    Tiempo t = new Tiempo();
+    
     conexion cx;
     public PrincipalAdministrador() 
     {
@@ -35,6 +36,13 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         Image imagen=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/nota.png"));
         menuPedidos.setIcon(new ImageIcon(imagen.getScaledInstance(menuPedidos.getWidth(), menuPedidos.getHeight(), Image.SCALE_SMOOTH)));
         this.setIconImage(imagen);
+        mostrarTiempo();
+    }
+    
+    public void mostrarTiempo()
+    {
+        fecha.setText(t.fechacomp);
+        hora.setText(t.horaComp);
     }
 
    
@@ -47,6 +55,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         mexi = new javax.swing.JLabel();
+        fecha = new javax.swing.JLabel();
+        hora = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuUsuarios = new javax.swing.JMenu();
@@ -59,6 +69,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         menMesa = new javax.swing.JMenu();
         menZona = new javax.swing.JMenu();
         pr = new javax.swing.JMenu();
+        menuProductos = new javax.swing.JMenu();
+        menuPromociones = new javax.swing.JMenu();
+        menuCategoria = new javax.swing.JMenu();
         pag = new javax.swing.JMenu();
         menPago = new javax.swing.JMenu();
         menTipoPago = new javax.swing.JMenu();
@@ -86,11 +99,24 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mexi, javax.swing.GroupLayout.PREFERRED_SIZE, 903, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mexi, javax.swing.GroupLayout.PREFERRED_SIZE, 803, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(hora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(fecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mexi, javax.swing.GroupLayout.PREFERRED_SIZE, 469, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(mexi, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenuBar1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -180,6 +206,31 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jMenuBar1.add(menRes);
 
         pr.setText("Productos");
+
+        menuProductos.setText("Productos");
+        menuProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuProductosMouseClicked(evt);
+            }
+        });
+        pr.add(menuProductos);
+
+        menuPromociones.setText("Promociones");
+        menuPromociones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuPromocionesMouseClicked(evt);
+            }
+        });
+        pr.add(menuPromociones);
+
+        menuCategoria.setText("Categoria");
+        menuCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCategoriaMouseClicked(evt);
+            }
+        });
+        pr.add(menuCategoria);
+
         jMenuBar1.add(pr);
 
         pag.setText("Pagos");
@@ -342,6 +393,24 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         g.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void menuProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuProductosMouseClicked
+        this.setVisible(false);
+        Productos pr= new Productos();
+        pr.setVisible(true);
+    }//GEN-LAST:event_menuProductosMouseClicked
+
+    private void menuPromocionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPromocionesMouseClicked
+       this.setVisible(false);
+        Promociones pro= new Promociones();
+        pro.setVisible(true);
+    }//GEN-LAST:event_menuPromocionesMouseClicked
+
+    private void menuCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCategoriaMouseClicked
+        this.setVisible(false);
+        Categoria cat = new Categoria();
+        cat.setVisible(true);
+    }//GEN-LAST:event_menuCategoriaMouseClicked
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -376,6 +445,8 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel fecha;
+    private javax.swing.JLabel hora;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -391,10 +462,13 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenu menRes;
     private javax.swing.JMenu menTipoPago;
     private javax.swing.JMenu menZona;
+    private javax.swing.JMenu menuCategoria;
     private javax.swing.JMenu menuEmpleados;
     private javax.swing.JMenu menuLogin;
     private javax.swing.JMenu menuNomina;
     private javax.swing.JMenu menuPedidos;
+    private javax.swing.JMenu menuProductos;
+    private javax.swing.JMenu menuPromociones;
     private javax.swing.JMenu menuPuestos;
     private javax.swing.JMenu menuReser;
     private javax.swing.JMenu menuUsuarios;
