@@ -18,7 +18,7 @@ public class Productos extends javax.swing.JFrame
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010413";
+    String password="18010376";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -322,7 +322,16 @@ public class Productos extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-            Connection c=null;
+            
+         if (txtNombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        } else if (txtPrecio.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        } if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+        Connection c=null;
         try
         {
             c= this.conectar();
@@ -392,7 +401,11 @@ public class Productos extends javax.swing.JFrame
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-               Connection c=null;
+               
+        if (txtNombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        
+        Connection c=null;
         try
         {
             c= this.conectar();
@@ -472,7 +485,50 @@ public class Productos extends javax.swing.JFrame
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+        
+    if (txtNombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        } else if (txtidPedido.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }  else if (txtPrecio.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+            } else if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }    
+    Connection c=null;
+        try
+        {
+            c= this.conectar();
+            ps=c.prepareStatement("UPDATE Productos SET  idPedido=?, nombre=?, precio=?, estatus=? WHERE idProducto=?");
+            
+            ps.setString(1, txtidPedido.getText());
+            ps.setString(2, txtNombre.getText());
+            ps.setString(3, txtPrecio.getText());
+            ps.setString(4, cbxEstatus.getSelectedItem().toString());
+            ps.setString(5, txtidPedido.getText());
+ 
+            
+            int res = ps.executeUpdate();
+            
+            if(res>0)
+            {
+                JOptionPane.showMessageDialog(null, "Producto Mdificado");
+                limpiarCajas();
+                cargarTabla();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Error al Modificar Producto");
+                limpiarCajas();
+            }
+            c.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        
+           
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**

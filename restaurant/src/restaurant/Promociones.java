@@ -23,7 +23,7 @@ public class Promociones extends javax.swing.JFrame {
         String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010413";
+    String password="18010376";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -203,6 +203,11 @@ public class Promociones extends javax.swing.JFrame {
                 btnBuscarMouseClicked(evt);
             }
         });
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         Guardar.setText("Guardar");
         Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -210,11 +215,21 @@ public class Promociones extends javax.swing.JFrame {
                 GuardarMouseClicked(evt);
             }
         });
+        Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarActionPerformed(evt);
+            }
+        });
 
         modificar.setText("Modificar");
         modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 modificarMouseClicked(evt);
+            }
+        });
+        modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificarActionPerformed(evt);
             }
         });
 
@@ -368,6 +383,11 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCanMinActionPerformed
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        
+        if (txtnombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }
+
         Connection c=null;
         try
         {
@@ -402,6 +422,21 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
+        
+        if (txtidProducto.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        } else if (txtnombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }   else if (txtdescuento.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }     else if (txtCanMin.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }       else if (txtCanMax.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }         else if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }
+
         Connection c=null;
         try
         {
@@ -438,7 +473,22 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
-         Connection c=null;
+         
+       if (txtidProducto.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        } else if (txtnombre.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }   else if (txtdescuento.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }     else if (txtCanMin.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }       else if (txtCanMax.getText().trim().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }         else if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+        Connection c=null;
         try
         {
             c= this.conectar();
@@ -513,6 +563,18 @@ public class Promociones extends javax.swing.JFrame {
         PrincipalAdministrador  a = new PrincipalAdministrador();
         a.setVisible(true);
     }//GEN-LAST:event_RegresarMouseClicked
+
+    private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GuardarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modificarActionPerformed
 
     /**
      * @param args the command line arguments
