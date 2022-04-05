@@ -16,83 +16,76 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 public class Reservaciones extends javax.swing.JFrame {
-    String bd="erp";
-    String url="jdbc:mysql://localhost:3306/";
-    String user="root";
-    String password="18010413";
-    String driver="com.mysql.cj.jdbc.Driver";
+
+    String bd = "erp";
+    String url = "jdbc:mysql://localhost:3306/";
+    String user = "root";
+    String password = "18010376";
+    String driver = "com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
     ResultSet rs;
     ButtonGroup btnGr;
-            public Connection conectar()
-    {
-        
-        try 
-        {
+
+    public Connection conectar() {
+
+        try {
             Class.forName(driver);
-            cx = DriverManager.getConnection(url+bd,user,password);
+            cx = DriverManager.getConnection(url + bd, user, password);
             System.out.println("Se conecto a la base de datos: " + bd);
-        } 
-        catch (ClassNotFoundException | SQLException ex)
-        {
+        } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("No se conecto a la base de datos: " + bd);
         }
         return cx;
     }
-        
-        private void limpiarCajas()
-        {
-            txtidRes.setText(null);
-            txtidMesa.setText(null);
-            txtidCli.setText(null);
-            txtPers.setText(null);
-            cbxHora.setSelectedIndex(0);
-            txtFecha.setText(null);
-            cbxHoraFin.setSelectedIndex(0);
-            
-        }
-        
-private void cargarTabla()
-        {
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblRes.getModel();
-            modeloTabla.setRowCount(0);
-            
-            PreparedStatement ps;
-            ResultSet rs;
-            ResultSetMetaData rsmd;
-            int columnas;
-            
-            try
-            {
-                Connection c=null;
-                c= this.conectar();
-                ps=c.prepareStatement("SELECT idReservacion, idMesa, idCliente, personas, hora, fecha, horafin FROM Reservaciones");
-                rs=ps.executeQuery();
-                rsmd = (ResultSetMetaData) rs.getMetaData();
-                columnas=rsmd.getColumnCount();
-                
-                while(rs.next())
-                {
-                    Object [] fila = new Object[columnas];
-                    for (int i = 0; i < columnas; i++) 
-                    {
-                        fila[i]=rs.getObject(i+1);
-                    }
-                    modeloTabla.addRow(fila);
+
+    private void limpiarCajas() {
+        txtidRes.setText(null);
+        txtidMesa.setText(null);
+        txtidCli.setText(null);
+        txtPers.setText(null);
+        cbxHora.setSelectedIndex(0);
+        txtFecha.setText(null);
+        cbxHoraFin.setSelectedIndex(0);
+
+    }
+
+    private void cargarTabla() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblRes.getModel();
+        modeloTabla.setRowCount(0);
+
+        PreparedStatement ps;
+        ResultSet rs;
+        ResultSetMetaData rsmd;
+        int columnas;
+
+        try {
+            Connection c = null;
+            c = this.conectar();
+            ps = c.prepareStatement("SELECT idReservacion, idMesa, idCliente, personas, hora, fecha, horafin FROM Reservaciones");
+            rs = ps.executeQuery();
+            rsmd = (ResultSetMetaData) rs.getMetaData();
+            columnas = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                Object[] fila = new Object[columnas];
+                for (int i = 0; i < columnas; i++) {
+                    fila[i] = rs.getObject(i + 1);
                 }
+                modeloTabla.addRow(fila);
             }
-            catch(SQLException e)
-            {
-                JOptionPane.showMessageDialog(null, e.toString());
-            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
         }
+    }
+
     public Reservaciones() {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarTabla();
-        Image im=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/Res.png"));
+        Image im = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/Res.png"));
         fondo.setIcon(new ImageIcon(im.getScaledInstance(fondo.getWidth(), fondo.getHeight(), Image.SCALE_SMOOTH)));
         this.setIconImage(im);
     }
@@ -157,6 +150,11 @@ private void cargarTabla()
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblRes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblResMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblRes);
@@ -289,7 +287,7 @@ private void cargarTabla()
                                 .addGap(18, 18, 18)
                                 .addComponent(btnBuscar))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtidCli))
@@ -376,11 +374,10 @@ private void cargarTabla()
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
-               Connection c=null;
-        try
-        {
-            c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, personas, hora, fecha, horafin) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        Connection c = null;
+        try {
+            c = this.conectar();
+            ps = c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, personas, hora, fecha, horafin) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtidRes.getText());
             ps.setString(2, txtidMesa.getText());
             ps.setString(3, txtidCli.getText());
@@ -388,40 +385,33 @@ private void cargarTabla()
             ps.setString(5, cbxHora.getSelectedItem().toString());
             ps.setString(6, txtFecha.getText());
             ps.setString(7, cbxHoraFin.getSelectedItem().toString());
-            
+
             int res = ps.executeUpdate();
-            
-            if(res>0)
-            {
+
+            if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Reservacion Guardada");
                 limpiarCajas();
                 cargarTabla();
-            }
-            else
-            {
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al guardar Reservacion");
                 limpiarCajas();
             }
             c.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnGuardarMouseClicked
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-      Connection c=null;
-        try
-        {
-            c= this.conectar();
-            ps=c.prepareStatement("SELECT * FROM Reservaciones WHERE idReservacion = ?");
+        Connection c = null;
+        try {
+            c = this.conectar();
+            ps = c.prepareStatement("SELECT * FROM Reservaciones WHERE idReservacion = ?");
             ps.setString(1, txtidRes.getText());
-            
-            rs=ps.executeQuery();
-            
-            if(rs.next())
-            {
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
                 txtidRes.setText(rs.getString("idReservacion"));
                 txtidMesa.setText(rs.getString("idMesa"));
                 txtidCli.setText(rs.getString("idCliente"));
@@ -429,25 +419,20 @@ private void cargarTabla()
                 cbxHora.setSelectedItem(rs.getString("hora"));
                 txtFecha.setText(rs.getString("fecha"));
                 cbxHoraFin.setSelectedItem(rs.getString("horafin"));
-            }
-            else
-            {
+            } else {
                 JOptionPane.showMessageDialog(null, "No existe una Reservacion con ese ID");
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-    
-         Connection c=null;
-        try
-        {
-            c= this.conectar();
-            ps=c.prepareStatement("UPDATE Reservaciones SET idMesa=?, idCliente=?, personas=?, hora=?, fecha=?, horafin=? WHERE idReservacion=?");
+
+        Connection c = null;
+        try {
+            c = this.conectar();
+            ps = c.prepareStatement("UPDATE Reservaciones SET idMesa=?, idCliente=?, personas=?, hora=?, fecha=?, horafin=? WHERE idReservacion=?");
             ps.setString(1, txtidMesa.getText());
             ps.setString(2, txtidCli.getText());
             ps.setString(3, txtPers.getText());
@@ -456,65 +441,52 @@ private void cargarTabla()
             ps.setString(6, cbxHoraFin.getSelectedItem().toString());
             ps.setString(7, txtidRes.getText());
 
-            
             int res = ps.executeUpdate();
-            
-            if(res>0)
-            {
+
+            if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Reservacion Modificada");
                 limpiarCajas();
                 cargarTabla();
-            }
-            else
-            {
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al Modificar");
                 limpiarCajas();
             }
             c.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
-        }    
+        }
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        Connection c=null;
-        try
-        {
-            c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Reservaciones WHERE idReservacion=?");
+        Connection c = null;
+        try {
+            c = this.conectar();
+            ps = c.prepareStatement("DELETE FROM Reservaciones WHERE idReservacion=?");
             ps.setInt(1, Integer.parseInt(txtidRes.getText()));
 
-            
             int res = ps.executeUpdate();
-            
-            if(res>0)
-            {
+
+            if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Reservacion Eliminada");
                 limpiarCajas();
                 cargarTabla();
-            }
-            else
-            {
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al Eliminar");
                 limpiarCajas();
             }
             c.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
-        }     
+        }
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnLimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseClicked
-     limpiarCajas();
+        limpiarCajas();
     }//GEN-LAST:event_btnLimpiarMouseClicked
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-      this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        this.setVisible(false);
+        PrincipalAdministrador a = new PrincipalAdministrador();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
@@ -529,6 +501,33 @@ private void cargarTabla()
     private void cbxHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHoraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxHoraActionPerformed
+
+    private void tblResMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblResMouseClicked
+        try {
+            int fila = tblRes.getSelectedRow();
+            int id = Integer.parseInt(tblRes.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps = c.prepareStatement("SELECT idReservacion, idMesa, idCliente, personas, hora, fecha, horafin FROM Reservaciones where idReservacion=?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+           
+           txtidRes.setText(String.valueOf(id));
+           txtidMesa.setText(rs.getString("idMesa"));
+           txtidCli.setText(rs.getString("idCliente"));
+           txtPers.setText(rs.getString("personas"));
+           cbxHora.setSelectedItem(rs.getString("hora"));
+           txtFecha.setText(rs.getString("fecha"));
+           cbxHoraFin.setSelectedItem(rs.getString("horafin"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblResMouseClicked
 
     /**
      * @param args the command line arguments
