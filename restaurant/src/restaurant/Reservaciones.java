@@ -121,9 +121,10 @@ public class Reservaciones extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        cbxHora = new javax.swing.JComboBox<>();
-        cbxHoraFin = new javax.swing.JComboBox<>();
+        cbxHora = new javax.swing.JComboBox<String>();
+        cbxHoraFin = new javax.swing.JComboBox<String>();
         fondo = new javax.swing.JLabel();
+        jdt = new com.toedter.calendar.JDateChooser();
 
         jLabel5.setText("idCliente");
 
@@ -242,14 +243,14 @@ public class Reservaciones extends javax.swing.JFrame {
 
         jLabel10.setText("hora fin");
 
-        cbxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "12:00:00", "13:00:00", "14:00:00 ", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", " " }));
+        cbxHora.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Seleccionar", "12:00:00", "13:00:00", "14:00:00 ", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", " " }));
         cbxHora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxHoraActionPerformed(evt);
             }
         });
 
-        cbxHoraFin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "13:00:00", "14:00:00", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", "23:00:00" }));
+        cbxHoraFin.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Seleccionar", "13:00:00", "14:00:00", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", "23:00:00" }));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Res.png"))); // NOI18N
 
@@ -296,25 +297,28 @@ public class Reservaciones extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jdt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(21, 21, 21)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,8 +358,9 @@ public class Reservaciones extends javax.swing.JFrame {
                             .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -375,6 +380,13 @@ public class Reservaciones extends javax.swing.JFrame {
 
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         Connection c = null;
+        
+        Connection c = null;
+        String dia = Integer.toString(jdt.getCalendar().get(Calendar.DAY_OF_MONTH));
+        String mes = Integer.toString(jdt.getCalendar().get(Calendar.MONTH) + 1);
+        String year = Integer.toString(jdt.getCalendar().get(Calendar.YEAR));
+        String fecha = (year + "-" + mes+ "-" + dia);
+        txtFecha.setText(fecha);
         try {
             c = this.conectar();
             ps = c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, personas, hora, fecha, horafin) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -584,6 +596,7 @@ public class Reservaciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdt;
     private javax.swing.JTable tblRes;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPers;
