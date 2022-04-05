@@ -12,6 +12,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -47,7 +53,6 @@ public class Reservaciones extends javax.swing.JFrame {
         txtidCli.setText(null);
         txtPers.setText(null);
         cbxHora.setSelectedIndex(0);
-        txtFecha.setText(null);
         cbxHoraFin.setSelectedIndex(0);
 
     }
@@ -114,15 +119,14 @@ public class Reservaciones extends javax.swing.JFrame {
         txtidMesa = new javax.swing.JTextField();
         txtidCli = new javax.swing.JTextField();
         txtPers = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        cbxHora = new javax.swing.JComboBox<String>();
-        cbxHoraFin = new javax.swing.JComboBox<String>();
+        cbxHora = new javax.swing.JComboBox<>();
+        cbxHoraFin = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         jdt = new com.toedter.calendar.JDateChooser();
 
@@ -156,6 +160,11 @@ public class Reservaciones extends javax.swing.JFrame {
         tblRes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblResMouseClicked(evt);
+            }
+        });
+        tblRes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tblResKeyTyped(evt);
             }
         });
         jScrollPane1.setViewportView(tblRes);
@@ -243,14 +252,14 @@ public class Reservaciones extends javax.swing.JFrame {
 
         jLabel10.setText("hora fin");
 
-        cbxHora.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Seleccionar", "12:00:00", "13:00:00", "14:00:00 ", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", " " }));
+        cbxHora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "12:00:00", "13:00:00", "14:00:00 ", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", " " }));
         cbxHora.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxHoraActionPerformed(evt);
             }
         });
 
-        cbxHoraFin.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Seleccionar", "13:00:00", "14:00:00", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", "23:00:00" }));
+        cbxHoraFin.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "13:00:00", "14:00:00", "15:00:00 ", "16:00:00 ", "17:00:00 ", "18:00:00 ", "19:00:00 ", "20:00:00 ", "21:00:00 ", "22:00:00 ", "23:00:00" }));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Res.png"))); // NOI18N
 
@@ -278,41 +287,44 @@ public class Reservaciones extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPers, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtidRes, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtidCli))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jdt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnBuscar)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel10)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtidRes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(txtPers, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jdt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(21, 21, 21)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtidCli, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addGap(32, 32, 32)
+                                                .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -357,8 +369,7 @@ public class Reservaciones extends javax.swing.JFrame {
                             .addComponent(cbxHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))))
                 .addGap(18, 18, 18)
@@ -381,13 +392,11 @@ public class Reservaciones extends javax.swing.JFrame {
     private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
         Connection c = null;
         
-        Connection c = null;
         String dia = Integer.toString(jdt.getCalendar().get(Calendar.DAY_OF_MONTH));
         String mes = Integer.toString(jdt.getCalendar().get(Calendar.MONTH) + 1);
         String year = Integer.toString(jdt.getCalendar().get(Calendar.YEAR));
         String fecha = (year + "-" + mes+ "-" + dia);
-        txtFecha.setText(fecha);
-        try {
+           try {
             c = this.conectar();
             ps = c.prepareStatement("INSERT INTO Reservaciones (idReservacion, idMesa, idCliente, personas, hora, fecha, horafin) VALUES (?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtidRes.getText());
@@ -395,7 +404,6 @@ public class Reservaciones extends javax.swing.JFrame {
             ps.setString(3, txtidCli.getText());
             ps.setString(4, txtPers.getText());
             ps.setString(5, cbxHora.getSelectedItem().toString());
-            ps.setString(6, txtFecha.getText());
             ps.setString(7, cbxHoraFin.getSelectedItem().toString());
 
             int res = ps.executeUpdate();
@@ -429,7 +437,6 @@ public class Reservaciones extends javax.swing.JFrame {
                 txtidCli.setText(rs.getString("idCliente"));
                 txtPers.setText(rs.getString("personas"));
                 cbxHora.setSelectedItem(rs.getString("hora"));
-                txtFecha.setText(rs.getString("fecha"));
                 cbxHoraFin.setSelectedItem(rs.getString("horafin"));
             } else {
                 JOptionPane.showMessageDialog(null, "No existe una Reservacion con ese ID");
@@ -449,7 +456,6 @@ public class Reservaciones extends javax.swing.JFrame {
             ps.setString(2, txtidCli.getText());
             ps.setString(3, txtPers.getText());
             ps.setString(4, cbxHora.getSelectedItem().toString());
-            ps.setString(5, txtFecha.getText());
             ps.setString(6, cbxHoraFin.getSelectedItem().toString());
             ps.setString(7, txtidRes.getText());
 
@@ -515,6 +521,17 @@ public class Reservaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxHoraActionPerformed
 
     private void tblResMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblResMouseClicked
+
+         try {
+             DefaultTableModel modeloTabla = (DefaultTableModel) tblRes.getModel();
+             int seectedRow = tblRes.getSelectedRow();
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String) modeloTabla.getValueAt(seectedRow, 5).toString());
+             jdt.setDate(date);
+        
+        } catch (ParseException ex) {
+            Logger.getLogger(Reservaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         try {
             int fila = tblRes.getSelectedRow();
             int id = Integer.parseInt(tblRes.getValueAt(fila, 0).toString());
@@ -532,7 +549,6 @@ public class Reservaciones extends javax.swing.JFrame {
            txtidCli.setText(rs.getString("idCliente"));
            txtPers.setText(rs.getString("personas"));
            cbxHora.setSelectedItem(rs.getString("hora"));
-           txtFecha.setText(rs.getString("fecha"));
            cbxHoraFin.setSelectedItem(rs.getString("horafin"));
 }
 
@@ -540,6 +556,10 @@ public class Reservaciones extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, e.toString());
         }
     }//GEN-LAST:event_tblResMouseClicked
+
+    private void tblResKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblResKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblResKeyTyped
 
     /**
      * @param args the command line arguments
@@ -598,7 +618,6 @@ public class Reservaciones extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jdt;
     private javax.swing.JTable tblRes;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPers;
     private javax.swing.JTextField txtidCli;
     private javax.swing.JTextField txtidMesa;
