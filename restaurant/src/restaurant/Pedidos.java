@@ -192,6 +192,11 @@ public class Pedidos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablePedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePedidosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablePedidos);
         if (tablePedidos.getColumnModel().getColumnCount() > 0) {
             tablePedidos.getColumnModel().getColumn(2).setResizable(false);
@@ -456,6 +461,29 @@ Connection c=null;
             System.out.println(e);
         }
     }//GEN-LAST:event_btnbuscarActionPerformed
+
+    private void tablePedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePedidosMouseClicked
+        try {
+            int fila = tablePedidos.getSelectedRow();
+            int id = Integer.parseInt(tablePedidos.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar FROM Pedidos where idPedido=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+
+            while(rs.next()){
+           
+           txtidPedido.setText(String.valueOf(id));
+           txtidMesa.setText(rs.getString("idMesa"));
+           txttotalPagar.setText(rs.getString("totalPagar"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tablePedidosMouseClicked
 
     /**
      * @param args the command line arguments

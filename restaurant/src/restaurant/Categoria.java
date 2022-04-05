@@ -151,6 +151,11 @@ public class Categoria extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCategoriaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCategoria);
         if (tblCategoria.getColumnModel().getColumnCount() > 0) {
             tblCategoria.getColumnModel().getColumn(0).setResizable(false);
@@ -485,6 +490,29 @@ Connection c=null;
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tblCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCategoriaMouseClicked
+        try {
+            int fila = tblCategoria.getSelectedRow();
+            int id = Integer.parseInt(tblCategoria.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idCategoria, idProducto, nombre, estatus FROM Categoria where idCategoria=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+         while(rs.next()){
+           
+           txtidCetegoria.setText(String.valueOf(id));
+           txtnombre.setText(rs.getString("nombre"));
+           txtidProdcuto.setText(rs.getString("idProducto"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblCategoriaMouseClicked
 
     /**
      * @param args the command line arguments

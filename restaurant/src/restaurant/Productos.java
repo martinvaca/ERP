@@ -144,6 +144,11 @@ public class Productos extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProductos);
         if (tblProductos.getColumnModel().getColumnCount() > 0) {
             tblProductos.getColumnModel().getColumn(0).setResizable(false);
@@ -365,7 +370,8 @@ public class Productos extends javax.swing.JFrame
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-                Connection c=null;
+                
+        Connection c=null;
         try
         {
             c= this.conectar();
@@ -404,7 +410,8 @@ public class Productos extends javax.swing.JFrame
                
         if (txtNombre.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
-        
+        }
+
         Connection c=null;
         try
         {
@@ -437,7 +444,8 @@ public class Productos extends javax.swing.JFrame
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-    Connection c=null;
+    
+        Connection c=null;
         try
         {
             c= this.conectar();
@@ -495,6 +503,7 @@ public class Productos extends javax.swing.JFrame
             } else if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }    
+
     Connection c=null;
         try
         {
@@ -530,6 +539,32 @@ public class Productos extends javax.swing.JFrame
         
            
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        try {
+            int fila = tblProductos.getSelectedRow();
+            int id = Integer.parseInt(tblProductos.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idProducto, idPedido, nombre, precio, estatus FROM Productos where idProducto=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtidProducto.setText(String.valueOf(id));
+           txtNombre.setText(rs.getString("nombre"));
+           txtidPedido.setText(rs.getString("idPedido"));
+           txtidProducto.setText(rs.getString("idProducto"));
+           txtPrecio.setText(rs.getString("precio"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblProductosMouseClicked
 
     /**
      * @param args the command line arguments

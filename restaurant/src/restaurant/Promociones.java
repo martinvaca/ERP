@@ -64,7 +64,7 @@ public class Promociones extends javax.swing.JFrame {
 
     private void cargarTabla()
         {
-            DefaultTableModel modeloTabla = (DefaultTableModel) tbl.getModel();
+            DefaultTableModel modeloTabla = (DefaultTableModel) tblPromos.getModel();
             modeloTabla.setRowCount(0);
             
             PreparedStatement ps;
@@ -107,7 +107,7 @@ public class Promociones extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tblPromos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -132,7 +132,7 @@ public class Promociones extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tbl.setModel(new javax.swing.table.DefaultTableModel(
+        tblPromos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -148,15 +148,20 @@ public class Promociones extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tbl);
-        if (tbl.getColumnModel().getColumnCount() > 0) {
-            tbl.getColumnModel().getColumn(0).setResizable(false);
-            tbl.getColumnModel().getColumn(1).setResizable(false);
-            tbl.getColumnModel().getColumn(2).setResizable(false);
-            tbl.getColumnModel().getColumn(3).setResizable(false);
-            tbl.getColumnModel().getColumn(4).setResizable(false);
-            tbl.getColumnModel().getColumn(5).setResizable(false);
-            tbl.getColumnModel().getColumn(6).setResizable(false);
+        tblPromos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPromosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblPromos);
+        if (tblPromos.getColumnModel().getColumnCount() > 0) {
+            tblPromos.getColumnModel().getColumn(0).setResizable(false);
+            tblPromos.getColumnModel().getColumn(1).setResizable(false);
+            tblPromos.getColumnModel().getColumn(2).setResizable(false);
+            tblPromos.getColumnModel().getColumn(3).setResizable(false);
+            tblPromos.getColumnModel().getColumn(4).setResizable(false);
+            tblPromos.getColumnModel().getColumn(5).setResizable(false);
+            tblPromos.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jLabel1.setText("idPromocion");
@@ -576,6 +581,33 @@ public class Promociones extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_modificarActionPerformed
 
+    private void tblPromosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPromosMouseClicked
+        try {
+            int fila = tblPromos.getSelectedRow();
+            int id = Integer.parseInt(tblPromos.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idPromocion, idProducto, nombre, descuento, canMin, canMax, estatus FROM Promociones where idPromocion=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtidPromocion.setText(String.valueOf(id));
+           txtnombre.setText(rs.getString("nombre"));
+           txtidProducto.setText(rs.getString("idProducto"));
+           txtdescuento.setText(rs.getString("descuento"));
+           txtCanMin.setText(rs.getString("canMin"));
+           txtCanMax.setText(rs.getString("canMax"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblPromosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -628,7 +660,7 @@ public class Promociones extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton limpiar;
     private javax.swing.JButton modificar;
-    private javax.swing.JTable tbl;
+    private javax.swing.JTable tblPromos;
     private javax.swing.JTextField txtCanMax;
     private javax.swing.JTextField txtCanMin;
     private javax.swing.JTextField txtdescuento;

@@ -181,6 +181,11 @@ public class detallePedido extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        detallePedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                detallePedidoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(detallePedido);
 
         btn_regresar.setText("Regresar");
@@ -512,6 +517,36 @@ public class detallePedido extends javax.swing.JFrame {
     private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
+
+    private void detallePedidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detallePedidoMouseClicked
+        try {
+            int fila = detallePedido.getSelectedRow();
+            int id = Integer.parseInt(detallePedido.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idDetPed, idProducto, idPedido, cant, precio, subtotal FROM detallePedido where idDetPed=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+
+            while(rs.next()){
+           
+           txtidPedido.setText(String.valueOf(id));
+           txtDetPed.setText(rs.getString("idDetPed"));
+           txtidProducto.setText(rs.getString("idProducto"));
+           txtidPedido.setText(rs.getString("idPedido"));
+           txtCantidad.setText(rs.getString("cant"));
+           txtPrecio.setText(rs.getString("precio"));
+           txtSubtotal.setText(rs.getString("subtotal"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+           
+        
+        
+    }//GEN-LAST:event_detallePedidoMouseClicked
 
     /**
      * @param args the command line arguments
