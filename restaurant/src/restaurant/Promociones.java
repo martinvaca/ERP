@@ -23,7 +23,7 @@ public class Promociones extends javax.swing.JFrame {
         String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010376";
+    String password="admin";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -54,7 +54,6 @@ public class Promociones extends javax.swing.JFrame {
     private void limpiarCajas()
         {
             txtidPromocion.setText(null);
-            txtidProducto.setText(null);
             txtnombre.setText(null);
             txtdescuento.setText(null);
             txtCanMin.setText(null);
@@ -76,7 +75,7 @@ public class Promociones extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idPromocion, idProducto, nombre, descuento, canMin, canMax, estatus FROM Promociones");
+                ps=c.prepareStatement("SELECT idPromocion, nombre, descuento, canMin, canMax, estatus FROM Promociones");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -110,15 +109,12 @@ public class Promociones extends javax.swing.JFrame {
         tblPromos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtnombre = new javax.swing.JTextField();
-        txtidPromocion = new javax.swing.JTextField();
-        txtidProducto = new javax.swing.JTextField();
         txtdescuento = new javax.swing.JTextField();
         txtCanMin = new javax.swing.JTextField();
         txtCanMax = new javax.swing.JTextField();
@@ -129,6 +125,7 @@ public class Promociones extends javax.swing.JFrame {
         eliminar = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
         Regresar = new javax.swing.JButton();
+        txtidPromocion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,12 +134,19 @@ public class Promociones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idPromocion", "idProducto", "nombre", "descuento", "canMin", "canMax", "estatus"
+                "idPromocion", "nombre", "descuento", "canMin", "canMax", "estatus"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -161,14 +165,11 @@ public class Promociones extends javax.swing.JFrame {
             tblPromos.getColumnModel().getColumn(3).setResizable(false);
             tblPromos.getColumnModel().getColumn(4).setResizable(false);
             tblPromos.getColumnModel().getColumn(5).setResizable(false);
-            tblPromos.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jLabel1.setText("idPromocion");
 
         jLabel2.setText("nombre");
-
-        jLabel3.setText("idProducto");
 
         jLabel4.setText("descuento");
 
@@ -184,13 +185,6 @@ public class Promociones extends javax.swing.JFrame {
         txtnombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtnombreActionPerformed(evt);
-            }
-        });
-
-        txtidPromocion.setEditable(false);
-        txtidPromocion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidPromocionActionPerformed(evt);
             }
         });
 
@@ -259,26 +253,39 @@ public class Promociones extends javax.swing.JFrame {
             }
         });
 
+        txtidPromocion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtidPromocionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Regresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
+                        .addComponent(Guardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(limpiar))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(179, 179, 179)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtidProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -286,41 +293,29 @@ public class Promociones extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel5)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtCanMin))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(txtCanMax, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(btnBuscar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtidPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(41, 41, 41)
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 8, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Regresar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Guardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modificar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(limpiar)))
+                                        .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(btnBuscar))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtidPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCanMax))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCanMin, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -340,9 +335,9 @@ public class Promociones extends javax.swing.JFrame {
                                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtidProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel1)
+                                    .addComponent(txtidPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
                                     .addComponent(txtdescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,10 +353,7 @@ public class Promociones extends javax.swing.JFrame {
                             .addComponent(txtCanMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtidPromocion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscar))))
+                        .addComponent(btnBuscar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Guardar)
@@ -369,15 +361,11 @@ public class Promociones extends javax.swing.JFrame {
                     .addComponent(eliminar)
                     .addComponent(limpiar)
                     .addComponent(Regresar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtidPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidPromocionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtidPromocionActionPerformed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
         // TODO add your handling code here:
@@ -406,7 +394,7 @@ public class Promociones extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Producto Encontrado");
                 txtidPromocion.setText(rs.getString("idPromocion"));
-                txtidProducto.setText(rs.getString("idProducto"));
+               
                 txtnombre.setText(rs.getString("nombre"));
                 txtdescuento.setText(rs.getString("descuento"));
                 txtCanMin.setText(rs.getString("canMin"));
@@ -428,9 +416,7 @@ public class Promociones extends javax.swing.JFrame {
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         
-        if (txtidProducto.getText().trim().isEmpty())  {
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
-        } else if (txtnombre.getText().trim().isEmpty())  {
+ if (txtnombre.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }   else if (txtdescuento.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
@@ -441,19 +427,22 @@ public class Promociones extends javax.swing.JFrame {
         }         else if (cbxEstatus.getSelectedItem().toString().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }
-
+       // else if (txtidProducto.getText < 0 )  {
+         //   JOptionPane.showMessageDialog(null, "Favor de poner numeros postivos","Error", JOptionPane.WARNING_MESSAGE);
+          //  }
         Connection c=null;
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Promociones ( idProducto, nombre, descuento, canMin, canMax, estatus) VALUES ( ?, ?, ?, ?, ? ,?)");
+            ps=c.prepareStatement("INSERT INTO Promociones ( nombre, descuento, canMin, canMax, estatus,idpromocion) VALUES ( ?, ?, ?, ? ,?,?)");
             
-            ps.setString(1, txtidProducto.getText());
-            ps.setString(2, txtnombre.getText());
-            ps.setString(3, txtdescuento.getText());
-            ps.setString(4, txtCanMin.getText());
-            ps.setString(5, txtCanMax.getText());
-            ps.setString(6, cbxEstatus.getSelectedItem().toString());
+          
+            ps.setString(1, txtnombre.getText());
+            ps.setString(2, txtdescuento.getText());
+            ps.setString(3, txtCanMin.getText());
+            ps.setString(4, txtCanMax.getText());
+            ps.setString(5, cbxEstatus.getSelectedItem().toString());
+            ps.setString(6, txtidPromocion.getText());
   
             
             int res = ps.executeUpdate();
@@ -479,9 +468,7 @@ public class Promociones extends javax.swing.JFrame {
 
     private void modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificarMouseClicked
          
-       if (txtidProducto.getText().trim().isEmpty())  {
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
-        } else if (txtnombre.getText().trim().isEmpty())  {
+    if (txtnombre.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }   else if (txtdescuento.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
@@ -497,15 +484,15 @@ public class Promociones extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Promociones SET  idProducto=?, nombre=?, descuento=?, canMin=?, canMax=?, estatus=? WHERE idPromocion=?");
+            ps=c.prepareStatement("UPDATE Promociones SET   nombre=?, descuento=?, canMin=?, canMax=?, estatus=? WHERE idPromocion=?");
             
-            ps.setString(1, txtidProducto.getText());
-            ps.setString(2, txtnombre.getText());
-            ps.setString(3, txtdescuento.getText());
-            ps.setString(4, txtCanMin.getText());
-            ps.setString(5, txtCanMax.getText());
-            ps.setString(6, cbxEstatus.getSelectedItem().toString());
-            ps.setString(7, txtidPromocion.getText());
+          
+            ps.setString(1, txtnombre.getText());
+            ps.setString(2, txtdescuento.getText());
+            ps.setString(3, txtCanMin.getText());
+            ps.setString(4, txtCanMax.getText());
+            ps.setString(5, cbxEstatus.getSelectedItem().toString());
+            ps.setString(6, txtidPromocion.getText());
  
             
             int res = ps.executeUpdate();
@@ -534,9 +521,9 @@ public class Promociones extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Promociones WHERE nombre=?");
+                       ps=c.prepareStatement("UPDATE  Promociones SET  estatus='I' WHERE nombre=?");
             ps.setString(1,txtnombre.getText());
-
+       cbxEstatus.setSelectedIndex(2);
             
             int res = ps.executeUpdate();
             
@@ -565,7 +552,7 @@ public class Promociones extends javax.swing.JFrame {
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
          this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_RegresarMouseClicked
 
@@ -588,7 +575,7 @@ public class Promociones extends javax.swing.JFrame {
             PreparedStatement ps;
             Connection c = null;
             c = this.conectar();
-            ps=c.prepareStatement("SELECT idPromocion, idProducto, nombre, descuento, canMin, canMax, estatus FROM Promociones where idPromocion=?");
+            ps=c.prepareStatement("SELECT idPromocion,  nombre, descuento, canMin, canMax, estatus FROM Promociones where idPromocion=?");
             ps.setInt(1, id);
             rs=ps.executeQuery();
             
@@ -596,7 +583,7 @@ public class Promociones extends javax.swing.JFrame {
            
            txtidPromocion.setText(String.valueOf(id));
            txtnombre.setText(rs.getString("nombre"));
-           txtidProducto.setText(rs.getString("idProducto"));
+        
            txtdescuento.setText(rs.getString("descuento"));
            txtCanMin.setText(rs.getString("canMin"));
            txtCanMax.setText(rs.getString("canMax"));
@@ -607,6 +594,10 @@ public class Promociones extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, e.toString());
         }
     }//GEN-LAST:event_tblPromosMouseClicked
+
+    private void txtidPromocionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidPromocionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtidPromocionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -651,7 +642,6 @@ public class Promociones extends javax.swing.JFrame {
     private javax.swing.JButton eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -664,7 +654,6 @@ public class Promociones extends javax.swing.JFrame {
     private javax.swing.JTextField txtCanMax;
     private javax.swing.JTextField txtCanMin;
     private javax.swing.JTextField txtdescuento;
-    private javax.swing.JTextField txtidProducto;
     private javax.swing.JTextField txtidPromocion;
     private javax.swing.JTextField txtnombre;
     // End of variables declaration//GEN-END:variables
