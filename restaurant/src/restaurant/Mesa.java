@@ -1,6 +1,9 @@
 package restaurant;
 
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -18,7 +22,7 @@ public class Mesa extends javax.swing.JFrame {
 String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010413";
+    String password="Holaquease1";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -31,8 +35,28 @@ String bd="erp";
 
         initComponents();
 
+    
+        
         this.setLocationRelativeTo(null);
         cargarTabla();
+        
+//        TablaM.addMouseListener(new MouseAdapter()
+//       {
+//           public void mousePressed(MouseEvent Mouse_evt)
+//           {
+//                JTable table= (JTable)Mouse_evt.getSource();
+//               Point point = Mouse_evt.getPoint();
+//               int row= table.rowAtPoint(point);
+//               if(Mouse_evt.getClickCount()==1)
+//               {
+//                   txtMesa.setText(TablaM.getValueAt(TablaM.getSelectedRow(),0).toString());
+//                   txtNM.setText(TablaM.getValueAt(TablaM.getSelectedRow(),2).toString());
+//                     txtZona.setText(TablaM.getValueAt(TablaM.getSelectedRow(),1).toString());
+//                //cbxEstatus.getSelectedItem(TablaM.getValueAt(TablaM.getSelected(),3).toString());
+//                   
+//               }             
+//           }
+//       });
     }
 
 private void limpiarCajas()
@@ -41,6 +65,7 @@ private void limpiarCajas()
             txtNM.setText(null);
            
             txtZona.setText(null);
+            cbxEstatus.setSelectedIndex(0);
         }    
 
 public Connection conectar()
@@ -73,7 +98,7 @@ private void cargarTabla()
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idMesa, idZona, noMesa FROM Mesa");
+                ps=c.prepareStatement("SELECT idMesa, idZona, noMesa, estatus FROM Mesa");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -117,6 +142,8 @@ private void cargarTabla()
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         Buscar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,14 +198,14 @@ private void cargarTabla()
 
             },
             new String [] {
-                "idMesa", "idZona", "noMesa"
+                "idMesa", "idZona", "noMesa", "Estatus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -189,13 +216,18 @@ private void cargarTabla()
                 return canEdit [columnIndex];
             }
         });
+        TablaM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaMMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaM);
 
         jLabel2.setText("No. Mesa");
 
         jLabel3.setText("idMesa");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel1.setText("Mesa");
 
         jLabel4.setText("idZona");
@@ -206,6 +238,10 @@ private void cargarTabla()
                 BuscarActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("Estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "A", "I" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,19 +266,25 @@ private void cargarTabla()
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(104, 104, 104)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                    .addComponent(txtNM)
-                    .addComponent(txtZona))
-                .addGap(34, 34, 34)
-                .addComponent(Buscar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                            .addComponent(txtNM)
+                            .addComponent(txtZona))
+                        .addGap(34, 34, 34)
+                        .addComponent(Buscar))
+                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -266,7 +308,11 @@ private void cargarTabla()
                             .addComponent(jLabel4)
                             .addComponent(txtZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
@@ -284,16 +330,19 @@ private void cargarTabla()
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Mesa (idMesa, idZona, noMesa) VALUES (?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Mesa (idMesa, idZona, noMesa, estatus) VALUES (?, ?, ?, ?)");
             ps.setString(1, txtMesa.getText());
             ps.setString(2, txtZona.getText());
             ps.setString(3, txtNM.getText());
+            ps.setString(4, cbxEstatus.getSelectedItem().toString());
+            
+            
 
             int res = ps.executeUpdate();
 
             if(res>0)
             {
-                JOptionPane.showMessageDialog(null, "Mesa Reservada");
+                JOptionPane.showMessageDialog(null, "Mesa guardada");
                 limpiarCajas();
                 cargarTabla();
             }
@@ -320,11 +369,13 @@ private void cargarTabla()
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Mesa SET  idZona=?, noMesa=? WHERE idMesa=?");
+            ps=c.prepareStatement("UPDATE Mesa SET  idZona=?, noMesa=?, estatus=? WHERE idMesa=?");
 
             ps.setString(1, txtZona.getText());
             ps.setString(2, txtNM.getText());
-            ps.setString(3, txtMesa.getText());
+            ps.setString(3, cbxEstatus.getSelectedItem().toString());
+            ps.setString(4, txtMesa.getText());
+            
 
             int res = ps.executeUpdate();
 
@@ -353,9 +404,14 @@ private void cargarTabla()
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Mesa WHERE idMesa=?");
+            ps = c.prepareStatement("UPDATE Mesa SET estatus='I' WHERE idMesa=?");
             ps.setInt(1, Integer.parseInt(txtMesa.getText()));
+            cbxEstatus.setSelectedIndex(2);
 
+         
+            //ps=c.prepareStatement("UPDATE Productos SET estatus='I' WHERE nombre=?");
+            //ps.setString(1,txtNombre.getText());
+            
             int res = ps.executeUpdate();
 
             if(res>0)
@@ -384,7 +440,7 @@ private void cargarTabla()
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
@@ -409,6 +465,7 @@ private void cargarTabla()
                 txtMesa.setText(rs.getString("idMesa"));
                 txtZona.setText(rs.getString("idZona"));
                 txtNM.setText(rs.getString("noMesa"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
                
                 
             }
@@ -424,6 +481,31 @@ private void cargarTabla()
             System.out.println(e);
         }
     }//GEN-LAST:event_BuscarActionPerformed
+
+    private void TablaMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMMouseClicked
+        try {
+            int fila = TablaM.getSelectedRow();
+            int id = Integer.parseInt(TablaM.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idMesa,  noMesa, idZona, estatus FROM Mesa where idMesa=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtMesa.setText(String.valueOf(id));
+           txtNM.setText(rs.getString("noMesa"));
+           txtZona.setText(String.valueOf(id));
+        
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_TablaMMouseClicked
 
     /**
      * @param args the command line arguments
@@ -469,10 +551,12 @@ private void cargarTabla()
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxEstatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtMesa;
     private javax.swing.JTextField txtNM;
