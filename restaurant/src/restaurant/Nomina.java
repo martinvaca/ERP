@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +21,7 @@ public class Nomina extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010413";
+    String password="Holaquease1";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -52,7 +54,7 @@ public class Nomina extends javax.swing.JFrame {
      
         private void cargarTabla()
         {
-            DefaultTableModel modeloTabla = (DefaultTableModel) tblNomina.getModel();
+            DefaultTableModel modeloTabla = (DefaultTableModel) nominaT.getModel();
             modeloTabla.setRowCount(0);
             
             PreparedStatement ps;
@@ -64,7 +66,7 @@ public class Nomina extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idNomina, idEmpleado, salario FROM Nomina");
+                ps=c.prepareStatement("SELECT idNomina, idEmpleado, salario, fechaIni, fechaFin, estatus FROM Nomina");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -90,6 +92,10 @@ public class Nomina extends javax.swing.JFrame {
             txtidNomina.setText(null);
             txtidEmpleado.setText(null);
             txtSalario.setText(null);
+            inicio.setText(null);
+            fin.setText(null);
+            cbxEstatus.setSelectedIndex(0);
+            
         }  
 
     /**
@@ -103,7 +109,7 @@ public class Nomina extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblNomina = new javax.swing.JTable();
+        nominaT = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         txtidNomina = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -116,25 +122,33 @@ public class Nomina extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        inicio = new javax.swing.JTextField();
+        fin = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel1.setText("NOMINA");
 
-        tblNomina.setModel(new javax.swing.table.DefaultTableModel(
+        nominaT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "idNomina", "idEmpleado", "Salario"
+                "idNomina", "idEmpleado", "Salario", "Fecha inicio", "Fecha fin", "nullEstatus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -145,11 +159,19 @@ public class Nomina extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblNomina);
-        if (tblNomina.getColumnModel().getColumnCount() > 0) {
-            tblNomina.getColumnModel().getColumn(0).setResizable(false);
-            tblNomina.getColumnModel().getColumn(1).setResizable(false);
-            tblNomina.getColumnModel().getColumn(2).setResizable(false);
+        nominaT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nominaTMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(nominaT);
+        if (nominaT.getColumnModel().getColumnCount() > 0) {
+            nominaT.getColumnModel().getColumn(0).setResizable(false);
+            nominaT.getColumnModel().getColumn(1).setResizable(false);
+            nominaT.getColumnModel().getColumn(2).setResizable(false);
+            nominaT.getColumnModel().getColumn(3).setResizable(false);
+            nominaT.getColumnModel().getColumn(4).setResizable(false);
+            nominaT.getColumnModel().getColumn(5).setResizable(false);
         }
 
         btnBuscar.setText("Buscar");
@@ -216,52 +238,81 @@ public class Nomina extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "A", "I" }));
+
+        jLabel6.setText("Fecha inicio");
+
+        jLabel7.setText("Fecha fin");
+
+        jLabel8.setText("AA/MM/DD");
+
+        jLabel9.setText("AA/MM/DD");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtidNomina, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)
-                        .addGap(36, 36, 36))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel8))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5))
+                                .addGap(0, 20, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtidNomina, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnBuscar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(txtidEmpleado)
+                                                .addComponent(txtSalario, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+                                            .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 61, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fin))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnRegresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpiar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(222, 222, 222)
-                .addComponent(btnRegresar)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,13 +337,26 @@ public class Nomina extends javax.swing.JFrame {
                             .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnModificar)
+                    .addComponent(jLabel5)
+                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(inicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar)
+                    .addComponent(btnLimpiar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
-                .addGap(18, 18, 18)
-                .addComponent(btnRegresar)
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(btnModificar)
+                    .addComponent(btnGuardar))
+                .addContainerGap())
         );
 
         pack();
@@ -311,10 +375,13 @@ public class Nomina extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Nomina (idNomina, idEmpleado, salario) VALUES (?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Nomina (idNomina, idEmpleado, salario, fechaIni, fechaFin, estatus) VALUES (?, ?, ?, ?, ?, ?)");
             ps.setString(1, txtidNomina.getText());
             ps.setString(2, txtidEmpleado.getText());
             ps.setString(3, txtSalario.getText());
+            ps.setString(4, inicio.getText());
+            ps.setString(5, fin.getText());
+            ps.setString(6, cbxEstatus.getSelectedItem().toString());
             
             int res = ps.executeUpdate();
             
@@ -342,11 +409,14 @@ Connection c=null;
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Nomina SET idEmpleado=?, Salario=? WHERE idNomina=?");
+            ps=c.prepareStatement("UPDATE Nomina SET idEmpleado=?, Salario=?, fechaIni=?, fechaFin=?, estatus=? WHERE idNomina=?");
             
             ps.setString(1, txtidEmpleado.getText());
             ps.setString(2, txtSalario.getText());
-            ps.setString(3, txtidNomina.getText());
+            ps.setString(3, inicio.getText());
+            ps.setString(4, fin.getText());
+            ps.setString(5, cbxEstatus.getSelectedItem().toString());
+            ps.setString(6, txtidNomina.getText());
             
             int res = ps.executeUpdate();
             
@@ -386,6 +456,9 @@ Connection c=null;
                 txtidNomina.setText(rs.getString("idNomina"));
                 txtidEmpleado.setText(rs.getString("idEmpleado"));
                 txtSalario.setText(rs.getString("salario"));
+                inicio.setText(rs.getString("fechaIni"));
+                fin.setText(rs.getString("fechaFin"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
                 
                 
                 
@@ -408,8 +481,9 @@ Connection c=null;
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Nomina WHERE idNomina=?");
+           ps = c.prepareStatement("UPDATE Nomina SET estatus='I' WHERE idNomina=?");
             ps.setInt(1, Integer.parseInt(txtidNomina.getText()));
+            cbxEstatus.setSelectedIndex(2);
 
             
             int res = ps.executeUpdate();
@@ -439,13 +513,42 @@ Connection c=null;
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void nominaTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nominaTMouseClicked
+        
+       try {
+            int fila = nominaT.getSelectedRow();
+            int id = Integer.parseInt(nominaT.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idNomina,  idEmpleado, salario, fechaIni, fechaFin, estatus FROM nomina where idNomina=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtidNomina.setText(String.valueOf(id));
+           txtidEmpleado.setText(String.valueOf(id));
+        
+           txtSalario.setText(rs.getString("salario"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+           inicio.setText(rs.getString("fechaIni"));
+           fin.setText(rs.getString("fechaFin"));
+           
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_nominaTMouseClicked
 
     /**
      * @param args the command line arguments
@@ -489,12 +592,20 @@ Connection c=null;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JComboBox<String> cbxEstatus;
+    private javax.swing.JTextField fin;
+    private javax.swing.JTextField inicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblNomina;
+    private javax.swing.JTable nominaT;
     private javax.swing.JTextField txtSalario;
     private javax.swing.JTextField txtidEmpleado;
     private javax.swing.JTextField txtidNomina;
