@@ -2,6 +2,9 @@ package restaurant;
 
 import java.sql.Connection;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -25,6 +28,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import java.sql.ResultSet;
+import javax.swing.JTable;
 /**
  *
  * @author Martin Vaca
@@ -33,12 +37,14 @@ public class Usuarios extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="18010413";
+    String password="admin";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
     ResultSet rs;
     ButtonGroup btnGr;
+    
+    
     
         public Connection conectar()
     {
@@ -74,9 +80,34 @@ public class Usuarios extends javax.swing.JFrame {
         txtIdUsuario.setVisible(false);
         this.setLocationRelativeTo(null);
         cargarTabla();
+//       TbUsuarios.addMouseListener(new MouseAdapter()
+//       {
+//           public void mousePressed(MouseEvent Mouse_evt)
+//           {
+//                JTable table= (JTable)Mouse_evt.getSource();
+//               Point point = Mouse_evt.getPoint();
+//               int row= table.rowAtPoint(point);
+//               if(Mouse_evt.getClickCount()==1)
+//               {
+//                   txtNombre.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),1).toString());
+//                   txtTelefono.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),2).toString());
+//                     txtEmail.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),3).toString());
+//               // cbxEstatus.getSelectedItem(TbUsuarios.getValueAt(TbUsuarios.getSelectedColumn(),4).toString());
+//                   txtDireccion.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),4).toString());
+//                     txtClave.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),5).toString());
+//                   //cbxTipoUsuario.setText(TbUsuarios.getValueAt(TbUsuarios.getSelectedRow(),2).toString());
+//               
+//               }             
+//           }
+//       });
+//               
+             
+               
+           
        
+          
     }
-    
+
             private void cargarTabla()
         {
             DefaultTableModel modeloTabla = (DefaultTableModel) TbUsuarios.getModel();
@@ -232,6 +263,11 @@ public class Usuarios extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TbUsuarios);
         if (TbUsuarios.getColumnModel().getColumnCount() > 0) {
             TbUsuarios.getColumnModel().getColumn(0).setResizable(false);
@@ -272,14 +308,14 @@ public class Usuarios extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(206, 206, 206)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegresar)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(206, 206, 206)
-                        .addComponent(jLabel6)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRegresar))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -302,7 +338,7 @@ public class Usuarios extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -327,38 +363,33 @@ public class Usuarios extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBuscar))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(11, 11, 11)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -508,8 +539,9 @@ public class Usuarios extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Usuarios WHERE idUsuario=?");
+            ps=c.prepareStatement("UPDATE  Usuarios SET  estatus='I' WHERE idUsuario=?");
             ps.setInt(1, Integer.parseInt(txtIdUsuario.getText()));
+             cbxEstatus.setSelectedIndex(2);
 
             
             int res = ps.executeUpdate();
@@ -536,13 +568,43 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
      
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void TbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbUsuariosMouseClicked
+        try {
+            int fila = TbUsuarios.getSelectedRow();
+            int id = Integer.parseInt(TbUsuarios.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT  nombre,telefono,email, direccion,estatus,tipoUsuario,estatus,clave FROM Productos where idProducto=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           
+           txtNombre.setText(rs.getString("nombre"));
+            txtTelefono.setText(rs.getString("telefono"));
+           txtEmail.setText(rs.getString("email"));
+            txtDireccion.setText(rs.getString("direccion"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+            cbxTipoUsuario.setSelectedItem(rs.getString("tipoUsuario"));
+              cbxEstatus.setSelectedItem(rs.getString("estatus"));
+               txtClave.setText(rs.getString("clave"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+                        
+    }//GEN-LAST:event_TbUsuariosMouseClicked
 
     /**
      * @param args the command line arguments
