@@ -22,9 +22,9 @@ import javax.swing.table.DefaultTableModel;
 public class Pedidos extends javax.swing.JFrame {
 
     String bd="erp";
-    String url="jdbc:mysql://localhost:3306/";
+    String url="jdbc:mysql://localhost:3000/";
     String user="root";
-    String password="18010376";
+    String password="123456";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -61,6 +61,8 @@ public class Pedidos extends javax.swing.JFrame {
             txtidPedido.setText(null);
             txtidMesa.setText(null);
             txttotalPagar.setText(null);
+            textidEmpleado.setText(null);
+            cbxEstatus.setSelectedIndex(0);
         }   
 
     private void cargarTabla()
@@ -77,7 +79,7 @@ public class Pedidos extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar FROM Pedidos");
+                ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar, idEmpleado, estatus FROM Pedidos");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -119,6 +121,10 @@ public class Pedidos extends javax.swing.JFrame {
         labelPedidos = new javax.swing.JLabel();
         btn_modificar = new javax.swing.JButton();
         btnbuscar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        textidEmpleado = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cbxEstatus = new javax.swing.JComboBox<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +151,12 @@ public class Pedidos extends javax.swing.JFrame {
         jLabel2.setText("#Pedido");
 
         jLabel3.setText("#Mesa");
+
+        txtidMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtidMesaActionPerformed(evt);
+            }
+        });
 
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -181,12 +193,19 @@ public class Pedidos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idPedido", "idMesa", "totalPagar"
+                "idPedido", "idMesa", "totalPagar", "idEmpleado", "estatus"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Integer.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -219,78 +238,107 @@ public class Pedidos extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("#IdEmpleado");
+
+        textidEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textidEmpleadoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Estatus");
+
+        cbxEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "A", "I" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelPedidos)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(36, 36, 36)
-                                        .addComponent(jLabel4))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnbuscar))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_regresar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
                         .addComponent(btn_guardar)
                         .addGap(14, 14, 14)
                         .addComponent(btn_modificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_limpiar)))
+                        .addComponent(btn_limpiar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(labelPedidos)
+                                .addGap(421, 421, 421))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_regresar)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(textidEmpleado)
+                                    .addComponent(txtidPedido))
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnbuscar)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5)))))
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(17, 17, 17)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelPedidos)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPedidos)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnbuscar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_guardar)
-                        .addComponent(btn_eliminar)
-                        .addComponent(btn_modificar)
-                        .addComponent(btn_limpiar))
+                            .addComponent(textidEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtidMesa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar)
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_modificar)
+                    .addComponent(btn_limpiar)
                     .addComponent(btn_regresar))
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -323,11 +371,13 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Pedidos SET  idMesa=?, totalPagar=? WHERE idPedido=?");
+            ps=c.prepareStatement("UPDATE Pedidos SET  idMesa=?, totalPagar=?, estatus=?, idEmpleado=? WHERE idPedido=?");
             
             ps.setString(1, txtidMesa.getText());
             ps.setString(2, txttotalPagar.getText());
-            ps.setString(3, txtidPedido.getText());
+            ps.setString(3, cbxEstatus.getSelectedItem().toString());
+            ps.setString(4, textidEmpleado.getText());
+            ps.setString(5, txtidPedido.getText());
  
             
             int res = ps.executeUpdate();
@@ -365,10 +415,12 @@ public class Pedidos extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar) VALUES (?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO Pedidos (idPedido, idMesa, totalPagar, idEmpleado, estatus) VALUES (?, ?, ?, ?,?)");
             ps.setString(1, txtidPedido.getText());
             ps.setString(2, txtidMesa.getText());
             ps.setString(3, txttotalPagar.getText());
+            ps.setString(4, textidEmpleado.getText());
+            ps.setString(5, cbxEstatus.getSelectedItem().toString());
   
             
             int res = ps.executeUpdate();
@@ -399,9 +451,12 @@ Connection c=null;
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Pedidos WHERE idPedido=?");
-            ps.setInt(1, Integer.parseInt(txtidPedido.getText()));
+//            ps=c.prepareStatement("DELETE FROM Pedidos WHERE idPedido=?");
+//            ps.setInt(1, Integer.parseInt(txtidPedido.getText()));
 
+            ps=c.prepareStatement("UPDATE Pedidos SET estatus='I' WHERE idPedido=?");
+            ps.setString(1,txtidPedido.getText());
+            cbxEstatus.setSelectedIndex(2);
             
             int res = ps.executeUpdate();
             
@@ -446,6 +501,8 @@ Connection c=null;
                 txtidPedido.setText(rs.getString("idPedido"));
                 txtidMesa.setText(rs.getString("idMesa"));
                 txttotalPagar.setText(rs.getString("totalPagar"));
+                textidEmpleado.setText(rs.getString("idEmpleado"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
                 
 
             }
@@ -462,22 +519,33 @@ Connection c=null;
         }
     }//GEN-LAST:event_btnbuscarActionPerformed
 
+    private void txtidMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidMesaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtidMesaActionPerformed
+
+    private void textidEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textidEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textidEmpleadoActionPerformed
+
     private void tablePedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePedidosMouseClicked
-        try {
+       try {
             int fila = tablePedidos.getSelectedRow();
             int id = Integer.parseInt(tablePedidos.getValueAt(fila, 0).toString());
             PreparedStatement ps;
             Connection c = null;
             c = this.conectar();
-            ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar FROM Pedidos where idPedido=?");
+            ps=c.prepareStatement("SELECT idPedido, idMesa, totalPagar, idEmpleado, estatus FROM Pedidos WHERE idPedido=?");
             ps.setInt(1, id);
             rs=ps.executeQuery();
-
-            while(rs.next()){
+            
+           while(rs.next()){
            
-           txtidPedido.setText(String.valueOf(id));
-           txtidMesa.setText(rs.getString("idMesa"));
+           txtidPedido.setText(String.valueOf(id));   
+           txtidMesa.setText(String.valueOf(id));
            txttotalPagar.setText(rs.getString("totalPagar"));
+           textidEmpleado.setText(String.valueOf(id));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+           txtidPedido.setText(String.valueOf(id));
 }
 
         } catch (SQLException e) {
@@ -527,14 +595,18 @@ Connection c=null;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JComboBox<String> cbxEstatus;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelPedidos;
     private javax.swing.JTable tablePedidos;
+    private javax.swing.JTextField textidEmpleado;
     private javax.swing.JTextField txtidMesa;
     private javax.swing.JTextField txtidPedido;
     private javax.swing.JTextField txttotalPagar;
