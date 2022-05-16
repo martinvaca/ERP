@@ -28,7 +28,7 @@ public class Reservaciones extends javax.swing.JFrame {
     String bd = "erp";
     String url = "jdbc:mysql://localhost:3306/";
     String user = "root";
-    String password = "18010376";
+    String password = "18010413";
     String driver = "com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -404,7 +404,7 @@ public class Reservaciones extends javax.swing.JFrame {
             ps.setString(3, txtidCli.getText());
             ps.setString(4, txtPers.getText());
             ps.setString(5, cbxHora.getSelectedItem().toString());
-            ps.setString(7, cbxHoraFin.getSelectedItem().toString());
+            ps.setString(6, cbxHoraFin.getSelectedItem().toString());
 
             int res = ps.executeUpdate();
 
@@ -504,7 +504,7 @@ public class Reservaciones extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.setVisible(false);
-        PrincipalAdministrador a = new PrincipalAdministrador();
+        PrincipalAdministrador1 a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
@@ -548,7 +548,9 @@ public class Reservaciones extends javax.swing.JFrame {
            txtidMesa.setText(rs.getString("idMesa"));
            txtidCli.setText(rs.getString("idCliente"));
            txtPers.setText(rs.getString("personas"));
+           
            cbxHora.setSelectedItem(rs.getString("hora"));
+           jdt.setDate(rs.getDate("fecha"));
            cbxHoraFin.setSelectedItem(rs.getString("horafin"));
 }
 

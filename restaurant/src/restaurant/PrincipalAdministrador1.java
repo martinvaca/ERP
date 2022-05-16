@@ -8,11 +8,11 @@ import javax.swing.ImageIcon;
  *
  * @author Martin Vaca
  */
-public class PrincipalAdministrador extends javax.swing.JFrame {
+public class PrincipalAdministrador1 extends javax.swing.JFrame {
     Tiempo t = new Tiempo();
     
     conexion cx;
-    public PrincipalAdministrador() 
+    public PrincipalAdministrador1() 
     {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -72,6 +72,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         menuProductos = new javax.swing.JMenu();
         menuPromociones = new javax.swing.JMenu();
         menuCategoria = new javax.swing.JMenu();
+        menuCan = new javax.swing.JMenu();
+        menuIng = new javax.swing.JMenu();
+        menuOfer = new javax.swing.JMenu();
         pag = new javax.swing.JMenu();
         menPago = new javax.swing.JMenu();
         menTipoPago = new javax.swing.JMenu();
@@ -230,6 +233,30 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
             }
         });
         pr.add(menuCategoria);
+
+        menuCan.setText("Cantidades");
+        menuCan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuCanMouseClicked(evt);
+            }
+        });
+        pr.add(menuCan);
+
+        menuIng.setText("Ingredientes");
+        menuIng.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuIngMouseClicked(evt);
+            }
+        });
+        pr.add(menuIng);
+
+        menuOfer.setText("OfertasProductos");
+        menuOfer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuOferMouseClicked(evt);
+            }
+        });
+        pr.add(menuOfer);
 
         jMenuBar1.add(pr);
 
@@ -411,6 +438,24 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         cat.setVisible(true);
     }//GEN-LAST:event_menuCategoriaMouseClicked
 
+    private void menuCanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuCanMouseClicked
+        this.setVisible(false);
+        Cantidades can = new Cantidades();
+        can.setVisible(true);
+    }//GEN-LAST:event_menuCanMouseClicked
+
+    private void menuIngMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIngMouseClicked
+           this.setVisible(false);
+        Ingredientes IN = new Ingredientes();
+        IN.setVisible(true);
+    }//GEN-LAST:event_menuIngMouseClicked
+
+    private void menuOferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOferMouseClicked
+        this.setVisible(false);
+        OfertasProductos IN = new OfertasProductos();
+        IN.setVisible(true);
+    }//GEN-LAST:event_menuOferMouseClicked
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -426,20 +471,21 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalAdministrador1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalAdministrador1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalAdministrador1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalAdministrador1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
      
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PrincipalAdministrador().setVisible(true);
+                new PrincipalAdministrador1().setVisible(true);
             }
         });
     }
@@ -462,10 +508,13 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenu menRes;
     private javax.swing.JMenu menTipoPago;
     private javax.swing.JMenu menZona;
+    private javax.swing.JMenu menuCan;
     private javax.swing.JMenu menuCategoria;
     private javax.swing.JMenu menuEmpleados;
+    private javax.swing.JMenu menuIng;
     private javax.swing.JMenu menuLogin;
     private javax.swing.JMenu menuNomina;
+    private javax.swing.JMenu menuOfer;
     private javax.swing.JMenu menuPedidos;
     private javax.swing.JMenu menuProductos;
     private javax.swing.JMenu menuPromociones;

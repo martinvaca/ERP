@@ -18,7 +18,7 @@ public class Categoria extends javax.swing.JFrame {
     String bd="erp";
     String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="admin";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -51,8 +51,7 @@ public class Categoria extends javax.swing.JFrame {
 
     private void limpiarCajas()
         {
-            txtidCategoria.setText(null);
-            txtidProdcuto.setText(null);
+            txtidCategoria.setText(null);            
             txtnombre.setText(null);
             cbxEstatus.setSelectedIndex(0);
         }   
@@ -71,7 +70,7 @@ public class Categoria extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idCategoria, idProducto, nombre, estatus FROM Categoria");
+                ps=c.prepareStatement("SELECT idCategoria, nombre, estatus FROM Categoria");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -107,10 +106,8 @@ public class Categoria extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCategoria = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
-        txtidProdcuto = new javax.swing.JTextField();
         txtnombre = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtidCategoria = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
@@ -133,14 +130,14 @@ public class Categoria extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idCategoria", "idProducto", "nombre", "Estatus"
+                "idCategoria", "nombre", "Estatus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -161,7 +158,6 @@ public class Categoria extends javax.swing.JFrame {
             tblCategoria.getColumnModel().getColumn(0).setResizable(false);
             tblCategoria.getColumnModel().getColumn(1).setResizable(false);
             tblCategoria.getColumnModel().getColumn(2).setResizable(false);
-            tblCategoria.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnBuscar.setText("Buscar");
@@ -172,8 +168,6 @@ public class Categoria extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Nombre");
-
-        jLabel2.setText("idProducto");
 
         jLabel3.setText("idCategoria");
 
@@ -259,9 +253,20 @@ public class Categoria extends javax.swing.JFrame {
                         .addComponent(btnGuardar))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                        .addGap(0, 8, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbxEstatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimpiar))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(20, 20, 20)
@@ -269,25 +274,9 @@ public class Categoria extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtidCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLimpiar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtidProdcuto)
-                                .addGap(124, 124, 124))
-                            .addComponent(cbxEstatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtidCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -298,25 +287,22 @@ public class Categoria extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBuscar)
                             .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(txtidProdcuto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtidCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtidCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 76, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnModificar)
@@ -346,8 +332,8 @@ public class Categoria extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Categoria Encontrada");
                 txtidCategoria.setText(rs.getString("idCategoria"));
-                txtidProdcuto.setText(rs.getString("idProducto"));
                 txtnombre.setText(rs.getString("nombre"));
+                cbxEstatus.setSelectedItem(rs.getString("estatus"));
                 
                 
 
@@ -369,8 +355,6 @@ public class Categoria extends javax.swing.JFrame {
       
       if (txtnombre.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
-        } else if (txtidProdcuto.getText().trim().isEmpty())  {
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         } else if (cbxEstatus.getSelectedItem().toString().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }
@@ -379,10 +363,10 @@ public class Categoria extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO Categoria ( idProducto, nombre, estatus) VALUES (?, ?, ?)");
-            ps.setString(1, txtidProdcuto.getText());
-            ps.setString(2, txtnombre.getText());
-            ps.setString(3, cbxEstatus.getSelectedItem().toString());
+            ps=c.prepareStatement("INSERT INTO Categoria (  nombre, estatus) VALUES (?, ?)");
+            
+            ps.setString(1, txtnombre.getText());
+            ps.setString(2, cbxEstatus.getSelectedItem().toString());
   
             
             int res = ps.executeUpdate();
@@ -408,9 +392,7 @@ public class Categoria extends javax.swing.JFrame {
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         
-        if (txtidProdcuto.getText().trim().isEmpty())  {
-            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
-        }  else if (txtnombre.getText().trim().isEmpty())  {
+        if (txtnombre.getText().trim().isEmpty())  {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
         }    else if (cbxEstatus.getSelectedItem().toString().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos","Error", JOptionPane.WARNING_MESSAGE);
@@ -420,12 +402,12 @@ public class Categoria extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("UPDATE Categoria SET  idProducto=?, nombre=?, estatus=? WHERE idCategoria=?");
+            ps=c.prepareStatement("UPDATE Categoria SET  nombre=?, estatus=? WHERE idCategoria=?");
             
-            ps.setString(1, txtidProdcuto.getText());
-            ps.setString(2, txtnombre.getText());
-            ps.setString(3, cbxEstatus.getSelectedItem().toString());
-            ps.setString(4, txtidCategoria.getText());
+            
+            ps.setString(1, txtnombre.getText());
+            ps.setString(2, cbxEstatus.getSelectedItem().toString());
+            ps.setString(3, txtidCategoria.getText());
  
             
             int res = ps.executeUpdate();
@@ -510,14 +492,13 @@ Connection c=null;
             PreparedStatement ps;
             Connection c = null;
             c = this.conectar();
-            ps=c.prepareStatement("SELECT idCategoria, idProducto, nombre, estatus FROM Categoria where idCategoria=?");
+            ps=c.prepareStatement("SELECT idCategoria, nombre, estatus FROM Categoria where idCategoria=?");
             ps.setInt(1, id);
             rs=ps.executeQuery();
          while(rs.next()){
            
            txtidCategoria.setText(String.valueOf(id));
            txtnombre.setText(rs.getString("nombre"));
-           txtidProdcuto.setText(rs.getString("idProducto"));
            cbxEstatus.setSelectedItem(rs.getString("estatus"));
 }
 
@@ -579,14 +560,12 @@ Connection c=null;
     private javax.swing.JComboBox<String> cbxEstatus;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblCategoria;
     private javax.swing.JTextField txtidCategoria;
-    private javax.swing.JTextField txtidProdcuto;
     private javax.swing.JTextField txtnombre;
     // End of variables declaration//GEN-END:variables
 }

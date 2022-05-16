@@ -198,6 +198,11 @@ public class Empleados extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmpleadosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEmpleados);
         if (tblEmpleados.getColumnModel().getColumnCount() > 0) {
             tblEmpleados.getColumnModel().getColumn(0).setResizable(false);
@@ -285,7 +290,7 @@ public class Empleados extends javax.swing.JFrame {
                                         .addComponent(txtNumSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(79, 79, 79)
-                                        .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(btnGuardar)
@@ -486,8 +491,9 @@ public class Empleados extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("DELETE FROM Empleados WHERE idUsuario=?");
-            ps.setInt(1, Integer.parseInt(txtidUsuario.getText()));
+            ps = c.prepareStatement("UPDATE empleados SET estatus='I' WHERE idEmpleado=?");
+            ps.setInt(1, Integer.parseInt(txtidEmpleado.getText()));
+            cbxEstatus.setSelectedIndex(2);
 
             
             int res = ps.executeUpdate();
@@ -513,13 +519,42 @@ public class Empleados extends javax.swing.JFrame {
 
     private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btnRegresarMouseClicked
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void tblEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseClicked
+               try {
+            int fila = tblEmpleados.getSelectedRow();
+            int id = Integer.parseInt(tblEmpleados.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idEmpleado, idPuesto, numSeguro, turno, idUsuario, salario ,estatus FROM empleados where idEmpleado=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtidEmpleado.setText(String.valueOf(id));
+           txtPuesto.setText(String.valueOf(id));
+           txtNumSeg.setText(rs.getString("numSeguro"));
+           cbxTurno.setSelectedItem(rs.getString("turno"));
+           txtidUsuario.setText(String.valueOf(id));
+           txtSalario.setText(rs.getString("salario"));
+           cbxEstatus.setSelectedItem(rs.getString("estatus"));
+           
+           
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblEmpleadosMouseClicked
 
     /**
      * @param args the command line arguments

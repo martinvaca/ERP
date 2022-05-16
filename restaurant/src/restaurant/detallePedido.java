@@ -23,9 +23,9 @@ import javax.swing.table.DefaultTableModel;
 public class detallePedido extends javax.swing.JFrame {
 
     String bd="erp";
-    String url="jdbc:mysql://localhost:3000/";
+    String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="123456";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -374,7 +374,7 @@ public class detallePedido extends javax.swing.JFrame {
         try
         {
             c= this.conectar();
-            ps=c.prepareStatement("INSERT INTO detallePedido (idDetPed, idProducto, idPedido, cant, precio, subtotal, estatus) VALUES (?, ?, ?, ?, ?, ?)");
+            ps=c.prepareStatement("INSERT INTO detallePedido (idDetPed, idProducto, idPedido, cant, precio, subtotal, estatus) VALUES (?, ?, ?, ?, ?, ?,?)");
             ps.setString(1, txtDetPed.getText());
             ps.setString(2, txtidProducto.getText());
             ps.setString(3, txtidPedido.getText());
@@ -495,7 +495,7 @@ public class detallePedido extends javax.swing.JFrame {
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 

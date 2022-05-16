@@ -106,7 +106,7 @@ public class Login extends javax.swing.JFrame
 
                 //Lineas para hacer la conexion entre interfaces
                 this.setVisible(false);
-                PrincipalAdministrador pA = new PrincipalAdministrador();
+                PrincipalAdministrador1 pA = new PrincipalAdministrador1();
                 pA.setVisible(true);
 
             }

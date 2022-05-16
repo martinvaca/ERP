@@ -22,9 +22,9 @@ import javax.swing.table.DefaultTableModel;
 public class Pedidos extends javax.swing.JFrame {
 
     String bd="erp";
-    String url="jdbc:mysql://localhost:3000/";
+    String url="jdbc:mysql://localhost:3306/";
     String user="root";
-    String password="123456";
+    String password="18010413";
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     PreparedStatement ps;
@@ -346,7 +346,7 @@ public class Pedidos extends javax.swing.JFrame {
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
         this.setVisible(false);
-        PrincipalAdministrador  a = new PrincipalAdministrador();
+        PrincipalAdministrador1  a = new PrincipalAdministrador1();
         a.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 
