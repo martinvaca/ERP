@@ -52,7 +52,7 @@ public class Pagos extends javax.swing.JFrame {
     private void limpiarCajas()
         {
             txtidPago.setText(null);
-            txtidPedido.setText(null);
+            cbxPe.setSelectedIndex(0);
             txtdescripcion.setText(null);
             txttotalPagar.setText(null);
         }    
@@ -71,7 +71,9 @@ public class Pagos extends javax.swing.JFrame {
             {
                 Connection c=null;
                 c= this.conectar();
-                ps=c.prepareStatement("SELECT idPago, idPedido, descripcion, total FROM Pagos");
+                ps=c.prepareStatement("select p.idPago, pe.idPedido, p.descripcion, dp.subtotal as total from Pagos p \n" +
+" inner join pedidos pe on pe.idPedido=p.idPedido \n" +
+" inner join detallePedido dp on dp.idPedido=pe.idPedido");
                 rs=ps.executeQuery();
                 rsmd = (ResultSetMetaData) rs.getMetaData();
                 columnas=rsmd.getColumnCount();
@@ -110,13 +112,13 @@ public class Pagos extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtidPedido = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txttotalPagar = new javax.swing.JTextField();
         txtdescripcion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnbuscar = new javax.swing.JButton();
         txtidPago = new javax.swing.JTextField();
+        cbxPe = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pagos");
@@ -175,6 +177,11 @@ public class Pagos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPagosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPagos);
         if (tblPagos.getColumnModel().getColumnCount() > 0) {
             tblPagos.getColumnModel().getColumn(0).setResizable(false);
@@ -204,6 +211,8 @@ public class Pagos extends javax.swing.JFrame {
                 btnbuscarActionPerformed(evt);
             }
         });
+
+        cbxPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "1", "2", "3" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,19 +250,19 @@ public class Pagos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
+                                    .addComponent(jLabel3)
+                                    .addComponent(cbxPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(3, 3, 3)
                                         .addComponent(jLabel4))))
+                            .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtidPago, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnbuscar))
-                            .addComponent(jLabel2))))
+                                .addComponent(btnbuscar)))))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -273,12 +282,13 @@ public class Pagos extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtidPedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txttotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,7 +321,7 @@ public class Pagos extends javax.swing.JFrame {
             c= this.conectar();
             ps=c.prepareStatement("INSERT INTO Pagos (idPago, idPedido, descripcion, total) VALUES (?, ?, ?, ?)");
             ps.setString(1, txtidPago.getText());
-            ps.setString(2, txtidPedido.getText());
+            ps.setString(2, cbxPe.getSelectedItem().toString());
             ps.setString(3, txtdescripcion.getText());
             ps.setString(4, txttotalPagar.getText());
             
@@ -343,7 +353,7 @@ public class Pagos extends javax.swing.JFrame {
             c= this.conectar();
             ps=c.prepareStatement("UPDATE Pagos SET  idPedido=?, descripcion=?, total=? WHERE idPago=?");
             
-            ps.setString(1, txtidPedido.getText());
+            ps.setString(1, cbxPe.getSelectedItem().toString());
             ps.setString(2, txtdescripcion.getText());
             ps.setString(3, txttotalPagar.getText());
             ps.setString(4, txtidPago.getText());
@@ -418,7 +428,7 @@ public class Pagos extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Pago Encontrado");
                 txtidPago.setText(rs.getString("idPago"));
-                txtidPedido.setText(rs.getString("idPedido"));
+                cbxPe.setSelectedItem(rs.getString("idPedido"));
                 txtdescripcion.setText(rs.getString("descripcion"));
                 txttotalPagar.setText(rs.getString("total"));
 
@@ -435,6 +445,31 @@ public class Pagos extends javax.swing.JFrame {
             System.out.println(e);
         }
     }//GEN-LAST:event_btnbuscarActionPerformed
+
+    private void tblPagosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPagosMouseClicked
+                 
+        try {
+            int fila = tblPagos.getSelectedRow();
+            int id = Integer.parseInt(tblPagos.getValueAt(fila, 0).toString());
+            PreparedStatement ps;
+            Connection c = null;
+            c = this.conectar();
+            ps=c.prepareStatement("SELECT idPago, idPedido, descripcion, total From pagos WHERE idPago=?");
+            ps.setInt(1, id);
+            rs=ps.executeQuery();
+            
+           while(rs.next()){
+           
+           txtidPago.setText(String.valueOf(id));   
+           cbxPe.setSelectedItem(rs.getString("idPedido"));
+           txtdescripcion.setText(rs.getString("descripcion"));
+           txttotalPagar.setText(rs.getString("total"));
+}
+
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblPagosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -478,6 +513,7 @@ public class Pagos extends javax.swing.JFrame {
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JComboBox<String> cbxPe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -487,7 +523,6 @@ public class Pagos extends javax.swing.JFrame {
     private javax.swing.JTable tblPagos;
     private javax.swing.JTextField txtdescripcion;
     private javax.swing.JTextField txtidPago;
-    private javax.swing.JTextField txtidPedido;
     private javax.swing.JTextField txttotalPagar;
     // End of variables declaration//GEN-END:variables
 }

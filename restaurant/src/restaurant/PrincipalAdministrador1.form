@@ -137,6 +137,16 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuPromocionesMouseClicked"/>
               </Events>
+              <SubComponents>
+                <Menu class="javax.swing.JMenu" name="menuDescuentos">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Descuentos"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuDescuentosMouseClicked"/>
+                  </Events>
+                </Menu>
+              </SubComponents>
             </Menu>
             <Menu class="javax.swing.JMenu" name="menuCategoria">
               <Properties>

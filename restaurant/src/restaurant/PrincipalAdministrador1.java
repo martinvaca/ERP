@@ -71,6 +71,7 @@ public class PrincipalAdministrador1 extends javax.swing.JFrame {
         pr = new javax.swing.JMenu();
         menuProductos = new javax.swing.JMenu();
         menuPromociones = new javax.swing.JMenu();
+        menuDescuentos = new javax.swing.JMenu();
         menuCategoria = new javax.swing.JMenu();
         menuCan = new javax.swing.JMenu();
         menuIng = new javax.swing.JMenu();
@@ -224,6 +225,15 @@ public class PrincipalAdministrador1 extends javax.swing.JFrame {
                 menuPromocionesMouseClicked(evt);
             }
         });
+
+        menuDescuentos.setText("Descuentos");
+        menuDescuentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuDescuentosMouseClicked(evt);
+            }
+        });
+        menuPromociones.add(menuDescuentos);
+
         pr.add(menuPromociones);
 
         menuCategoria.setText("Categoria");
@@ -456,6 +466,13 @@ public class PrincipalAdministrador1 extends javax.swing.JFrame {
         IN.setVisible(true);
     }//GEN-LAST:event_menuOferMouseClicked
 
+    private void menuDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuDescuentosMouseClicked
+        this.setVisible(false);
+        descuentos des = new descuentos();
+        des.setVisible(true);
+        
+    }//GEN-LAST:event_menuDescuentosMouseClicked
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -510,6 +527,7 @@ public class PrincipalAdministrador1 extends javax.swing.JFrame {
     private javax.swing.JMenu menZona;
     private javax.swing.JMenu menuCan;
     private javax.swing.JMenu menuCategoria;
+    private javax.swing.JMenu menuDescuentos;
     private javax.swing.JMenu menuEmpleados;
     private javax.swing.JMenu menuIng;
     private javax.swing.JMenu menuLogin;
